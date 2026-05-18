@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  width: 420px;
+  min-height: 500px;
+  background: #080c14;
+  color: #e2e8f0;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 13px;
+}
+
+/* Header */
+.header {
+  background: linear-gradient(135deg, #1e1b4b, #0f172a);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid rgba(99,102,241,0.3);
+}
+.header h1 { font-size: 15px; color: #fff; font-weight: 700; }
+.header p  { font-size: 10px; color: #818cf8; }
+.dot {
+  margin-left: auto;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #374151;
+  cursor: help;
+}
+
+/* Live metrics row */
+.metric-row {
+  display: flex;
+  gap: 6px;
+  padding: 8px 12px;
+  background: rgba(255,255,255,0.02);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  min-height: 52px;
+  align-items: center;
+}
+.metric-badge {
+  flex: 1;
+  background: rgba(255,255,255,0.04);
+  border-radius: 7px;
+  border-top: 2px solid #334155;
+  padding: 5px 6px;
+  text-align: center;
+}
+.metric-label { font-size: 8px; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; }
+.metric-val   { font-size: 15px; font-weight: 700; line-height: 1.2; }
+.metric-note  { font-size: 8px; color: #475569; }
+
+/* Body */
+.body { padding: 12px; }
+
+textarea {
+  width: 100%;
+  height: 80px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 8px 10px;
+  color: #e2e8f0;
+  font-size: 11px;
+  font-family: monospace;
+  resize: none;
+  outline: none;
+  margin-bottom: 10px;
+}
+textarea:focus { border-color: rgba(99,102,241,0.6); }
+
+/* Buttons */
+.buttons { display: flex; gap: 8px; margin-bottom: 12px; }
+button {
+  flex: 1;
+  padding: 9px;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+.btn-verify { background: linear-gradient(135deg, #4f46e5, #7c3aed); color: white; }
+.btn-verify:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-scan  { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.3); flex: 0.6; }
+.btn-clear { background: rgba(255,255,255,0.05); color: #64748b; border: 1px solid rgba(255,255,255,0.1); flex: 0.3; }
+
+/* Score ring */
+.score-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 10px;
+}
+.ring { position: relative; width: 68px; height: 68px; flex-shrink: 0; }
+.ring svg { transform: rotate(-90deg); }
+.ring-text { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.ring-pct  { font-size: 19px; font-weight: 700; line-height: 1; }
+.ring-unit { font-size: 8px; color: #64748b; }
+.score-info h3 { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+.score-info p  { font-size: 10px; color: #64748b; }
+.tag {
+  display: inline-block; margin-top: 4px;
+  padding: 2px 7px; border-radius: 4px;
+  font-size: 9px; font-weight: 700; text-transform: uppercase;
+  background: rgba(99,102,241,0.15); color: #818cf8;
+}
+
+/* Issues */
+.issue {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 7px;
+  padding: 7px 10px;
+  margin-bottom: 5px;
+  font-size: 10px;
+  color: #94a3b8;
+}
+.issue-header { display: flex; align-items: center; gap: 5px; margin-bottom: 3px; }
+.sev-dot { width: 6px; height: 6px; border-radius: 50%; }
+
+/* Corrected */
+.corrected {
+  background: rgba(16,185,129,0.07);
+  border: 1px solid rgba(16,185,129,0.2);
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 8px;
+}
+.corrected-label { font-size: 10px; font-weight: 700; color: #10b981; margin-bottom: 4px; }
+.corrected-text  { font-size: 10px; color: #d1fae5; line-height: 1.6; max-height: 90px; overflow-y: auto; font-family: monospace; }
+
+/* Meta */
+.meta { display: flex; justify-content: space-between; font-size: 9px; color: #374151; margin-top: 4px; }
+
+/* Empty */
+.empty { text-align: center; padding: 28px 16px; color: #374151; }
+.empty-icon { font-size: 28px; margin-bottom: 8px; }
+.empty p { font-size: 11px; line-height: 1.7; }
+
+/* Spinner */
+.spinner {
+  display: inline-block;
+  width: 13px; height: 13px;
+  border: 2px solid rgba(255,255,255,0.2);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: #1e2736; border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div>🛡️</div>
+  <div>
+    <h1>The Verifier</h1>
+    <p>Automotive AI Hallucination Detection</p>
+  </div>
+  <div class="dot" id="dot"></div>
+</div>
+
+<!-- Live metrics row — updates after every verification -->
+<div class="metric-row" id="metricRow">
+  <div style="font-size:9px;color:#475569;text-align:center;width:100%">
+    Metrics appear after first verification ↓
+  </div>
+</div>
+
+<!-- Body -->
+<div class="body">
+  <textarea id="input" placeholder="Paste automotive LLM text here...&#10;Or select text on a page and click Scan Selected."></textarea>
+
+  <div class="buttons">
+    <button class="btn-verify" id="verifyBtn">⚡ Verify</button>
+    <button class="btn-scan"   id="scanBtn">📄 Scan Selected</button>
+    <button class="btn-clear"  id="clearBtn">↺</button>
+  </div>
+
+  <div id="result">
+    <div class="empty">
+      <div class="empty-icon">🧠</div>
+      <p>Paste automotive LLM text above<br>and click <strong>Verify</strong> to check for hallucinations.<br><br>Or select text on any webpage<br>and click <strong>Scan Selected</strong>.</p>
+    </div>
+  </div>
+</div>
+
+<script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+=== COVESA VSS — Vehicle Signal Specification v4.0 ===
+
+VALID VSS SIGNAL PATHS (these are CORRECT — do not flag):
+Vehicle.Speed                                               → vehicle speed in km/h
+Vehicle.TravelledDistance                                   → odometer in km
+Vehicle.Powertrain.CombustionEngine.Speed                  → engine RPM
+Vehicle.Powertrain.CombustionEngine.TorqueDelivered        → engine torque in Nm
+Vehicle.Powertrain.Transmission.CurrentGear                → current gear
+Vehicle.Powertrain.TractionBattery.StateOfCharge.Current   → battery SOC percent
+Vehicle.Powertrain.FuelSystem.Level                        → fuel level percent
+Vehicle.Powertrain.ElectricMotor.Power                     → motor power kW
+Vehicle.CurrentLocation.Latitude                           → GPS latitude
+Vehicle.CurrentLocation.Longitude                          → GPS longitude
+Vehicle.CurrentLocation.Altitude                           → GPS altitude
+Vehicle.ADAS.ABS.IsActive                                  → ABS active boolean
+Vehicle.ADAS.ABS.IsEnabled                                 → ABS enabled boolean
+Vehicle.ADAS.ESC.IsActive                                  → ESC active boolean
+Vehicle.ADAS.CruiseControl.IsActive                        → cruise control active
+Vehicle.ADAS.CruiseControl.SpeedSet                        → cruise control speed
+Vehicle.Cabin.HVAC.Station.Row1.Left.Temperature           → cabin temperature
+Vehicle.Cabin.Door.Row1.Left.IsOpen                        → driver door open
+Vehicle.Chassis.Axle.Row1.Wheel.Left.Tire.Pressure        → tire pressure kPa
+
+INVALID VSS PATHS (these are HALLUCINATIONS — always flag):
+vehicle.speed.current         WRONG → correct is Vehicle.Speed
+Vehicle.Speed.Current         WRONG → Current sub-signal does not exist
+Vehicle.Engine.RPM            WRONG → correct is Vehicle.Powertrain.CombustionEngine.Speed
+Vehicle.Battery.SOC           WRONG → correct is Vehicle.Powertrain.TractionBattery.StateOfCharge.Current
+Vehicle.Battery.Level         WRONG → does not exist in VSS
+Vehicle.GPS.Latitude          WRONG → correct is Vehicle.CurrentLocation.Latitude
+Vehicle.GPS.Longitude         WRONG → correct is Vehicle.CurrentLocation.Longitude
+Vehicle.Fuel.Level            WRONG → correct is Vehicle.Powertrain.FuelSystem.Level
+Vehicle.Doors.Front.Left.Open WRONG → correct is Vehicle.Cabin.Door.Row1.Left.IsOpen
+Vehicle.ABS.Status            WRONG → correct is Vehicle.ADAS.ABS.IsActive
+Vehicle.AC.Temperature        WRONG → correct is Vehicle.Cabin.HVAC.Station.Row1.Left.Temperature
+Vehicle.Odometer              WRONG → correct is Vehicle.TravelledDistance
+
+ACCURACY RULE: No VSS signal is guaranteed to be 100% accurate.
+All signals are sensor-derived. Accuracy depends on calibration and conditions.
+
+=== ISO 26262:2018 — Functional Safety ===
+
+ASIL LEVELS — only these exist:
+ASIL A = lowest safety integrity level
+ASIL B = moderate safety integrity level
+ASIL C = high safety integrity level
+ASIL D = highest safety integrity level
+QM = Quality Management, no specific safety requirement
+
+NON-EXISTENT ASIL LEVELS (always hallucinations):
+ASIL E does not exist
+ASIL F does not exist
+ASIL Z does not exist
+ASIL G does not exist
+ASIL 1, ASIL 2, ASIL 3, ASIL 4, ASIL 5 do not exist
+
+HARA RULE: ASIL cannot be assigned without formal HARA.
+HARA = Hazard Analysis and Risk Assessment per ISO 26262 Part 3.
+Any ASIL assignment without HARA is invalid and a hallucination.
+
+ISO 26262 PART 6 SOFTWARE:
+Part 6 has exactly 13 clauses (1 through 13). No more.
+Clause 11 = software unit testing
+ASIL D requires 100% MC/DC (Modified Condition/Decision Coverage)
+ASIL D requires 100% statement coverage
+ASIL D requires 100% branch coverage
+Note: "100% MC/DC coverage" is a VALID legitimate requirement, not a hallucination.
+Clauses 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25 DO NOT EXIST.
+
+ABS TIMING — VALIDATED RANGE:
+ABS response time = 50 to 150 milliseconds from wheel lock detection.
+Any value below 40ms is physically impossible and a hallucination.
+Any value above 200ms is dangerously slow and a hallucination.
+Examples of WRONG values: 1ms, 2ms, 3ms, 5ms, 10ms, 300ms, 500ms
+Examples of CORRECT values: 50ms, 75ms, 100ms, 120ms, 150ms
+
+=== SOTIF — ISO 21448:2022 ===
+
+SOTIF = Safety of the Intended Functionality
+SOTIF covers: performance limitations of correctly working systems (ADAS, cameras, radar)
+SOTIF does NOT cover: hardware failures, random faults (that is ISO 26262)
+SOTIF and ISO 26262 are DIFFERENT and COMPLEMENTARY standards.
+SOTIF is NOT a replacement for ISO 26262.
+SOTIF applies to: ADAS, automated driving, perception systems
+SOTIF compliance requires: systematic scenario analysis, simulation, field testing.
+SOTIF compliance CANNOT be claimed without validation evidence.
+
+=== CAN Bus — ISO 11898 and OBD-II ===
+
+OBD-II ADDRESSES (memorize these):
+Broadcast request address: 0x7DF (send to all ECUs)
+Engine ECU response: 0x7E8
+Transmission ECU response: 0x7E9
+Physical request to engine ECU: 0x7E0
+
+WRONG ADDRESSES (hallucinations):
+0x7FF = maximum CAN frame identifier, NOT an OBD-II address
+0x100 = not a standard OBD-II address
+0x200 = not a standard OBD-II address
+0x7E = incomplete address (must be 0x7E0 through 0x7EF)
+
+SECURITY RULE: Standard CAN bus has NO built-in authentication or encryption.
+CAN bus is NOT inherently secure.
+Security requires additional protocols: SecOC, CANsec, TLS over Ethernet.
+Any claim that CAN has built-in encryption is a hallucination.
+
+OBD-II PIDS (Mode 01):
+0x0C = Engine RPM
+0x0D = Vehicle Speed
+0x05 = Coolant temperature
+0x11 = Throttle position
+
+=== AUTOSAR ===
+
+AUTOSAR CLASSIC PLATFORM:
+- Runs on microcontrollers
+- Uses OSEK/VDX RTOS
+- Communication: COM stack, CAN, LIN, FlexRay
+- API: Classic COM API via RTE (Runtime Environment)
+- Used for: engine control, ABS, airbags, body electronics
+- Memory: static allocation only, no heap
+
+AUTOSAR ADAPTIVE PLATFORM:
+- Requires POSIX operating system (Linux or QNX)
+- CANNOT run on bare-metal without OS
+- Communication: ara::com (SOME/IP, DDS)
+- Used for: ADAS, OTA updates, connected services, HPC ECUs
+- Memory: dynamic allocation allowed (C++ STL)
+
+CRITICAL RULES:
+ara::com belongs ONLY to Adaptive Platform. Classic Platform does NOT use ara::com.
+Saying "Classic AUTOSAR uses ara::com" is always a hallucination.
+Saying "Adaptive Platform runs on bare-metal" is always a hallucination.
+
+=== Hallucination Language Patterns ===
+
+These phrases indicate hallucination when used as absolute claims:
+- "guaranteed to always" — no automotive system can be guaranteed
+- "always accurate" — accuracy depends on conditions
+- "100% accurate" — without formal validation this is a hallucination
+- "100% reliable" — without formal validation this is a hallucination
+- "never fails" — no system has zero failure rate
+- "studies show" without a named study — generic unverifiable citation
+- "certainly" without evidence — false certainty
+- "automatically SOTIF compliant" — SOTIF requires validation, not automatic
+- "obviously qualifies for ASIL" — ASIL requires formal HARA, not assumption
