@@ -36,19 +36,19 @@ The Verifier detects and corrects hallucinations in LLM-generated automotive eng
 ```
 User pastes text (Chrome Extension or Dashboard)
               ↓
-Stage 1: Local Pattern Detection    < 1ms   25 patterns + 7 smart rules
+Stage 1: Local Pattern Detection       25 patterns + 7 smart rules
               ↓
-Stage 2: TF-IDF KB Search           ~ 5ms   cosine similarity, top 5 chunks
+Stage 2: TF-IDF KB Search              cosine similarity, top 5 chunks
               ↓
-Stage 3: Optional URL Context       ~ 0ms   user-provided extra source
+Stage 3: Optional URL Context         user-provided extra source
               ↓
-Stage 4: Groq LLaMA 3.3 70B        ~300ms  reads text + KB → corrected JSON
+Stage 4: Groq LLaMA 3.3 70B           reads text + KB → corrected JSON
               ↓
-Stage 5: Smart Score Decision       < 1ms   critical local patterns trusted
+Stage 5: Smart Score Decision         critical local patterns trusted
               ↓
-Stage 6: ROUGE-L Computation        < 1ms   corrected vs relevant KB lines
+Stage 6: ROUGE-L Computation          corrected vs relevant KB lines
               ↓
-Stage 7: Save + Update Live Metrics < 1ms   SQLite + evaluation update
+Stage 7: Save + Update Live Metrics    SQLite + evaluation update
               ↓
 Response to extension/dashboard
 ```
@@ -76,7 +76,7 @@ project/
 │   ├── popup.html / popup.js      ← extension UI with live metrics bar
 │   ├── content.js                 ← captures selected text on webpages
 │   ├── background.js              ← right-click context menu
-│   └── icons/                     ← icon16.png, icon48.png, icon128.png
+│   └── icons/                    
 ├── dashboard.py                   ← Streamlit dashboard
 ├── requirements.txt
 └── README.md
