@@ -161,6 +161,17 @@ with tab1:
         col_left, col_right = st.columns(2)
 
         with col_left:
+            # Risk class breakdown — High / Medium / Low / Clean
+            clean  = sum(1 for r in history if r.get("score",0) <  25)
+            low    = sum(1 for r in history if 25 <= r.get("score",0) < 40)
+            medium = sum(1 for r in history if 40 <= r.get("score",0) < 60)
+            high   = sum(1 for r in history if r.get("score",0) >= 60)
+            rc1,rc2,rc3,rc4 = st.columns(4)
+            with rc1: st.metric("✅ Clean (0-24%)",    clean)
+            with rc2: st.metric("🔶 Low (25-39%)",     low)
+            with rc3: st.metric("⚠️ Medium (40-59%)",  medium)
+            with rc4: st.metric("🚨 High (≥60%)",       high)
+            st.markdown("---")
             st.markdown("### Hallucination Score per Verification")
             df = pd.DataFrame(history[:50]).sort_values("id")
             df["run"] = range(1, len(df)+1)
