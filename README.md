@@ -1,198 +1,77 @@
-# 🛡️ The Verifier v2.0 — Automotive AI Hallucination Detection
+# The Verifier — Hybrid RAG Hallucination Detector for Automotive Engineering
 
-> **Master's Degree End-of-Year Project — 2026**
-> Grand Valley State University Michigan | Leaders University Tunisia
+**Trust, But Verify: A Hybrid RAG System for Real-Time Detection and Correction of LLM Hallucinations in Automotive Engineering**
+Jaweher Hichri, Samah Mansour — Grand Valley State University
 
----
+The Verifier detects and corrects LLM-generated hallucinations in automotive engineering content (ISO 26262, AUTOSAR, VSS, OBD-II, ADAS, etc.) in real time. Paste any ChatGPT / Claude / Gemini output into the Chrome extension or the dashboard and get back, in under 2 seconds on a dedicated service tier:
 
-## What Is This?
+- A **hallucination risk score** (0–100%)
+- The **specific issues found**, each grounded in a cited automotive standard
+- A **corrected version** anchored in the certified knowledge base
+- **Live metrics** (ROUGE-L, accuracy, recall) updated after every verification
 
-The Verifier detects and corrects hallucinations in LLM-generated automotive engineering content in real time. Paste any ChatGPT/Claude/Gemini output into the Chrome extension or dashboard and get back in under 2 seconds:
+## Architecture — Seven-Stage Hybrid RAG Pipeline
 
-- A **hallucination score** (0–100%)
-- A **list of issues** with severity (Critical / High / Medium)
-- A **corrected version** grounded in verified automotive standards
-- **Live metrics**: ROUGE-L, Accuracy, Recall — updated after every verification
+1. **S1 — Local Pattern Layer**: 25 static rules + 7 context-aware regex checks catch invalid VSS paths, bogus ASILs, wrong OBD-II codes, and false CAN-bus claims in under 1 ms, with 100% precision on the rule set.
+2. **S2 — TF-IDF Retrieval**: sparse cosine-similarity search over a 146-entry knowledge base, ~5 ms.
+3. **S3 — RAG Judge**: an LLM judge (currently `gpt-oss-120b` on Groq; the same slot has also run LLaMA 3.3 70B) evaluates the input against retrieved standards and drafts a grounded repair, ~300–400 ms.
+4. **S4 — Decision Fusion**: a deterministic S1 match always overrides the judge's probabilistic output.
+5. **S5 — ROUGE-L Scoring**: measures lexical grounding of the generated correction against the knowledge base.
+6. **S6/S7 — Persistence & Metrics**: every transaction is logged (SQLite) and surfaced on the live dashboard.
 
----
+## Evaluation (300-case, cross-subdomain, standards-traced corpus)
 
-## Final Results (38 live verifications)
+Ground truth is fixed **by construction**, before any system run, eliminating the circularity of grading the system against its own risk score. Full methodology, confusion matrix, confidence intervals, per-subdomain breakdown, and ablation are in the paper (`paper/paper_camera.tex`).
 
-| Metric | Value | Meaning |
+| Metric | Full system (S1+S3) | Rules only (S1) |
 |---|---|---|
-| **ROUGE-L** | **0.232** | Correction word overlap with knowledge base — RAG grounding confirmed |
-| **Accuracy** | **1.000** | All confident cases correctly classified |
-| **Recall** | **1.000** | All hallucinations in confident set detected |
-| High Risk detected | 15 / 38 (39.5%) | Correctly flagged as dangerous |
-| Avg response time | 1649ms | Full pipeline including Groq API |
-| Local detection only | < 5ms | Pattern detection, no internet needed |
+| Accuracy (95% CI) | **0.840** (0.794–0.877) | 0.407 (0.353–0.463) |
+| Precision | **0.972** | 1.000 |
+| Recall (95% CI) | **0.761** (0.694–0.817) | 0.033 (0.015–0.069) |
+| F1 score | **0.854** | 0.063 |
 
----
+140 of 184 hallucinations detected, 4 false alarms. Mean end-to-end latency on a dedicated service tier: **1,259 ms**, within the 2-second real-time target.
 
+> The live dashboard's running stats (from ad hoc demo inputs) are a separate, informal measurement — they are not the 300-case evaluation above.
 
+## Repository Layout
 
-## Architecture — Hybrid RAG Pipeline
+- `backend/` — FastAPI server (`server.py`), knowledge base, index-build and utility scripts.
+- `dashboard.py` — Streamlit live-metrics dashboard.
+- `extension/` — Chrome extension (load unpacked from this folder).
+- `evaluation/` — the formal 300-case benchmark: `evaluation_dataset.json` (labeled corpus), `run_evaluation.py` (evaluation script), and the saved `evaluation_results.json` matching the paper's results table.
+- `paper/` — the camera-ready paper (`paper_camera.tex`) and figures.
+- `presentation/` — conference and defense slide decks, speech scripts, and the test-case spreadsheet.
 
-```
-User pastes text (Chrome Extension or Dashboard)
-              ↓
-Stage 1: Local Pattern Detection       25 patterns + 7 smart rules
-              ↓
-Stage 2: TF-IDF KB Search              cosine similarity, top 5 chunks
-              ↓
-Stage 3: Optional URL Context         user-provided extra source
-              ↓
-Stage 4: Groq LLaMA 3.3 70B           reads text + KB → corrected JSON
-              ↓
-Stage 5: Smart Score Decision         critical local patterns trusted
-              ↓
-Stage 6: ROUGE-L Computation          corrected vs relevant KB lines
-              ↓
-Stage 7: Save + Update Live Metrics    SQLite + evaluation update
-              ↓
-Response to extension/dashboard
-```
-
----
-
-## Project Structure
-
-```
-project/
-├── backend/
-│   ├── data/
-│   │   └── knowledge_base.txt     ← 146 lines of verified automotive facts
-│   ├── index/                     ← built by build_index.py
-│   │   ├── vectorizer.pkl
-│   │   ├── matrix.pkl
-│   │   ├── chunks.pkl
-│   │   └── sources.pkl
-│   ├── build_index.py             ← run once to build TF-IDF index
-│   ├── server.py                  ← FastAPI backend — all logic here
-│   ├── fix_rouge.py               ← backfill ROUGE-L for existing history
-│   └── history.db                 ← auto-created SQLite database
-├── extension/
-│   ├── manifest.json              ← Chrome Manifest V3
-│   ├── popup.html / popup.js      ← extension UI with live metrics bar
-│   ├── content.js                 ← captures selected text on webpages
-│   ├── background.js              ← right-click context menu
-│   └── icons/                    
-├── dashboard.py                   ← Streamlit dashboard
-├── requirements.txt
-└── README.md
-```
-
----
-
-## Knowledge Base Sources
-
-| Source | File | Content |
-|---|---|---|
-| COVESA VSS 4.0 | knowledge_base.txt | Valid vs invalid signal paths |
-| ISO 26262:2018 | knowledge_base.txt | ASIL A-D, HARA, Part 6 clauses 1-13, ABS 50-150ms |
-| SOTIF ISO 21448 | knowledge_base.txt | Different from ISO 26262, requires validation |
-| CAN Bus / OBD-II | knowledge_base.txt | 0x7DF broadcast, 0x7E8-0x7EF responses, no built-in security |
-| AUTOSAR R22-11 | knowledge_base.txt | Classic vs Adaptive, ara::com is Adaptive only |
-| HaluEval Patterns | knowledge_base.txt | Linguistic hallucination signatures |
-
----
-
-## API Endpoints
-
-| Method | Endpoint | Description |
-|---|---|---|
-| POST | `/verify` | Full RAG pipeline — returns score, issues, corrected text, ROUGE-L |
-| POST | `/reverify` | Re-verify corrected text — computes hallucination delta |
-| GET | `/rouge` | Last saved ROUGE-L, Accuracy, Recall from evaluation |
-| GET | `/history` | Past verification records |
-| GET | `/stats` | Total, avg score, high risk count, avg speed |
-| GET | `/live_metrics` | ROUGE-L per verification for chart |
-| GET | `/health` | Server status, Groq connection, chunk count |
-| GET | `/docs` | Swagger UI |
-
----
-
-## How to Run
-
-### Step 1 — Install dependencies
-```bash
-pip install fastapi uvicorn groq scikit-learn numpy python-dotenv streamlit requests
-```
-
-### Step 2 — Add Groq API key
-Get a free key at https://console.groq.com (no credit card)
+## Running the Live Demo (backend + dashboard + extension)
 
 ```bash
+py -3.11 -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
 cd backend
-echo GROQ_API_KEY=gsk_your_key_here > .env
-```
-
-### Step 3 — Build the knowledge base index (once only)
-```bash
 python build_index.py
+python -m uvicorn server:app --port 8000
 ```
 
-### Step 4 — Start backend (Terminal 1)
-```bash
-python server.py
-```
-Check: http://localhost:8000/health → should show `"groq": true`
+In a second terminal:
 
-### Step 5 — Start dashboard (Terminal 2)
 ```bash
-cd ..
-```
-```bash 
-### Installer Streamlit 
-```
+venv\Scripts\activate
 streamlit run dashboard.py
-python -m streamlit run dashboard.py
-```
-Opens at: http://localhost:PORT
-
-### Step 6 — Load Chrome Extension
-```
-chrome://extensions/ → Developer mode ON → Load unpacked → select extension/ folder
 ```
 
-### Step 7 — Backfill ROUGE-L (if you have existing history)
+Load the extension: `chrome://extensions` → enable Developer mode → "Load unpacked" → select the `extension/` folder.
+
+Set `GROQ_API_KEY` and `JUDGE_MODEL` in `backend/.env` (see `.env.example`).
+
+## Reproducing the 300-Case Evaluation
+
+With the backend running on `:8000`:
+
 ```bash
-cd backend
-python fix_rouge.py
+cd evaluation
+python run_evaluation.py --mode full
 ```
 
----
-
-
-## Evaluation Metrics
-
-| Metric | Definition | Value |
-|---|---|---|
-| ROUGE-L | Word overlap between correction and KB (Ji et al. 2022) | 0.232 |
-| Accuracy | Correct classifications / total confident cases | 1.000 |
-| Recall | Hallucinations caught / total actual hallucinations | 1.000 |
-
-Metrics update automatically after every verification — no button needed.
-
----
-
-## MLOps
-
-| Tool | Role |
-|---|---|
-| Git | Version control — tags v1.0, v2.0 |
-| DVC | Knowledge base versioning |
-| Docker | Portable container |
-| Streamlit | Live monitoring dashboard |
-
----
-
-## References
-
-1. Ji et al. (2022). Survey of hallucination in NLG. ACM Computing Surveys.
-2. Huang et al. (2024). Survey on hallucination in large language models.
-3. Pavel et al. (2025). Knowledge Conflation Hallucination in Automotive LLM.
-4. Li et al. (2023). HaluEval: Hallucination evaluation benchmark. EMNLP 2023.
-5. Wunnava et al. (2025). RAG-enhanced automotive compliance verification.
-6. Mahawatta Dona et al. (2024). Hallucination detection in automotive AI.
-7. Khati et al. (2024). LLM hallucination in safety-critical domains.
+Expected result (already saved in `evaluation_results.json`): n=300, Accuracy 0.840, Precision 0.972, Recall 0.761, F1 0.854.

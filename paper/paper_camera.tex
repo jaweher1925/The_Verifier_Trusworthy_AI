@@ -1,0 +1,180 @@
+\documentclass[conference,a4paper]{IEEEtran}
+\IEEEoverridecommandlockouts
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{url}
+\usepackage{balance}
+\usepackage{microtype}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\begin{document}
+\title{Trust, But Verify: A Hybrid RAG System for Real-Time Detection and Correction of LLM Hallucinations in Automotive Engineering}
+\author{
+\IEEEauthorblockN{Jaweher Hichri}
+\IEEEauthorblockA{\textit{College of Computing} \\
+\textit{Grand Valley State University}\\
+Allendale, MI, USA \\
+hichrij@mail.gvsu.edu}
+\and
+\IEEEauthorblockN{Samah Mansour}
+\IEEEauthorblockA{\textit{College of Computing} \\
+\textit{Grand Valley State University}\\
+Allendale, MI, USA \\
+mansours@gvsu.edu}
+}
+\maketitle
+\begin{abstract}
+Large Language Models (LLMs), including GPT-4, Claude, and LLaMA, are getting more involved in automotive engineering processes to perform activities related to requirements analysis, code generation, or standards search to help with standards compliance (such as International Organization for Standardization (ISO) 26262, AUTOSAR). The problem with these tools' ability to generate highly believable but incorrect information, known as hallucinations, poses a severe safety risk. In order to gain insight into this environment, we have initially reviewed 14 publications (2022-2026). Our analysis revealed two gaps in current literature: (Gap A) to our knowledge, the absence of a unified benchmark evaluating hallucinations across all four critical automotive subdomains simultaneously (Mechanical, Electrical, Software, and Safety), and (Gap B) the lack of a reported real-time, frictionless tool that actively detects, tests, and fixes these errors for engineers.
+To address these gaps, we developed \textit{The Verifier}, an end-to-end framework that detects and corrects LLM hallucinations in real-time without disrupting the engineering workflow. The architecture features a seven-stage hybrid Retrieval-Augmented Generation (RAG) pipeline, combining a sub-millisecond local rule engine with an LLM judge grounded in a curated knowledge base derived from six certified automotive standards. We evaluate on a constructed, standards-traced corpus of 300 cases stratified across the four subdomains, whose ground-truth labels are fixed by construction before any system run, and we report the full confusion matrix, confidence intervals, per-subdomain results, and an ablation. At its calibrated 40\% alert threshold, The Verifier achieves 0.840 accuracy (95\% CI 0.79--0.88), 0.972 precision, 0.761 recall, and an F1 score of 0.854, detecting 140 of 184 hallucinations with four false alarms; a transparently reported threshold-sensitivity analysis identifies and corrects a judge score-calibration effect. Median latency observed during this evaluation was approximately 6 s, inflated by free-tier API rate-limiting rather than by the architecture itself; on a dedicated service tier, mean end-to-end latency for the deployed configuration is 1{,}259 ms, within the 2-second real-time target.
+\end{abstract}
+\begin{IEEEkeywords}
+hallucination detection, retrieval-augmented generation, large language models, automotive safety, ISO 26262, trustworthy AI
+\end{IEEEkeywords}
+\section{Introduction}
+Modern automotive engineers frequently utilize Large Language Models (LLMs) to draft code, parse complex requirements, and validate Advanced Driver-Assistance Systems (ADAS) functionalities. Unfortunately, these models are prone to hallucination. In a safety-critical domain, an LLM confidently inventing a nonexistent COVESA Vehicle Signal Specification (VSS) path, fabricating an Anti-lock Braking System (ABS) latency, or conjuring a fake Automotive Safety Integrity Level (like ``ASIL~Z'') directly compromises ISO 26262:2018 compliance.
+Fortunately, the automotive sector has a structural advantage for automated verification: most of its critical data points are unambiguous and formally bounded. For example, the network of valid VSS signal paths, the four legitimate ASIL classifications, and On-Board Diagnostics II (OBD-II) Parameter IDs all exist as finite, published enumerations. Consequently, a substantial share of LLM hallucinations in this domain can be evaluated deterministically against reference standards rather than probabilistic plausibility.
+Despite this architectural advantage and the rapid expansion of hallucination research in general natural language processing (NLP), the automotive-specific manifestation of this problem remains highly fragmented. Current research tends to isolate the problem, testing only code or only vision, without offering engineers a holistic mechanism to correct the text.
+To bridge this gap, this paper presents two primary contributions: (1) A comprehensive review of 14 recent papers (2022--2026), exposing the lack of cross-subdomain testing and the absence of viable correction tools. And (2), we introduce \textit{The Verifier}, a complete, end-to-end pipeline (combining a Chrome extension, and a Streamlit dashboard) designed to seamlessly integrate into the engineer's workflow. This system actively monitors LLM outputs, flags detected hallucinations, and generates a corrected response strictly grounded in certified automotive standards. We state the nature of the contribution explicitly: it is not a new detection algorithm, but a direct mapping of the causal hallucination taxonomy onto a deployable two-layer architecture, together with the first cross-subdomain, standards-traced evaluation corpus in the automotive hallucination literature.
+\section{Background and Related Work}
+\subsection{The Origins of Hallucination}
+Detecting and mitigating hallucinations first requires understanding their structural origins. LLMs function as autoregressive engines, generating output via probabilistic next-token prediction rather than deterministic queries to a relational database. Because their objective maximizes fluency over accuracy, a model lacking the necessary information does not stay silent, but generates a response that mimics the syntax and tone of a correct answer.
+Early attempts to classify these errors focused on their surface-level symptoms. Ji et al.~\cite{ref1} established a foundational taxonomy dividing errors into intrinsic (directly contradicting a provided source) and extrinsic (introducing unverifiable external information). Huang et al.~\cite{ref2} later adapted this framework for modern generative models, categorizing errors into factuality (the text contradicts real-world facts) and faithfulness (the text is not faithful to the given source).
+While these phenomenological classifications describe what an error looks like, our research adopts the causal taxonomy proposed by Zeng et al.~\cite{ref14}, which divides hallucinations by their root origin. Understanding the root cause is critical because it directly dictates the required detection architecture. Zeng et al. identify two primary categories:
+\begin{itemize}
+    \item \textbf{Data-Driven Hallucinations:} These errors originate from scattered, outdated, or corrupted pre-training distributions. Since automotive-specific standards (such as OEM internal guidelines or specialized ISO clauses) are not adequately represented in general training datasets, the model simply never learned this fact. As a result, when prompted, the model defaults to text strings that are statistically plausible but factually incorrect (such as fabricating a VSS track or an OBD-II broadcast address).
+    \item \textbf{Reasoning-Driven Hallucinations:}  These errors stem from logical failures that occur during the inference stage. In this scenario, the model already possesses the correct basic facts in its parametric memory, but fails to accurately link them together during complex, multi-step logical inference processes. For example, the model may know the definition of ASIL~D, but it assigns this safety level to a component without fulfilling the mandatory prerequisite of hazard analysis and risk assessment (HARA).
+\end{itemize}
+This causal distinction is highly operational for system design: Data-Driven errors involve finite, formally enumerable sets and can therefore be caught via exact deterministic lookups. In contrast, Reasoning-Driven errors represent logical lapses that demand deep contextual evaluation.
+Furthermore, as part of an effort to bridge the gap between general NLP and automotive software, Pavel et al.~\cite{ref4} identified a specialized subset of realism errors known as ``knowledge-combination hallucinations'' (KCH). They identified 11 specific patterns in which large language models (LLMs) confuse automotive application programming interfaces (APIs) and produce ``hallucinations'' during code generation. Because ``knowledge-combination hallucinations'' produce code that is free of syntactic errors and compiles correctly, they often fail silently at runtime, making them a particularly insidious threat in vehicle software that requires high safety integrity.
+\subsection{Detection and Mitigation Strategies}
+Current hallucination detection strategies generally fall into three paradigms. \emph{Reference-based} checking verifies text against trusted documents but is limited by corpus completeness. \emph{Consistency-based} methods, such as SelfCheckGPT~\cite{ref7}, measure variance across repeated model samplings. While this achieved 91.43\% recall in ADAS scene descriptions~\cite{ref8}, it introduces 1.5--4 seconds of latency per query, rendering it unsuitable for real-time interactive tools. \emph{Static analysis} via Abstract Syntax Tree (AST) parsing has demonstrated 100\% precision and 87.6\% recall for generated API calls~\cite{ref9}, though it is strictly limited to code and cannot process natural language safety requirements.
+For mitigation, Retrieval-Augmented Generation (RAG) dominates the literature, though its benefits are not universal: in a comparative study across three benchmark datasets, Naive and Graph RAG failed to consistently outperform a fine-tuned baseline model, which achieved the highest accuracy on all three~\cite{ref11}, while other work reports a 35--60\% error reduction for hybrid architectures across numerous deployments~\cite{ref3}. Agentic RAG has also been successfully applied to derive safety requirements~\cite{ref5}. To evaluate our system, we utilize insights from TruthfulQA~\cite{ref12} and HaluEval~\cite{ref13}, directly translating linguistic overconfidence markers into programmatic rules. To measure correction grounding, we selected ROUGE-L~\cite{rouge} over BERTScore (which incurs severe computational latency) and over FActScore~\cite{ref10}, which checks claims against Wikipedia, an inappropriate reference authority for ISO 26262 or AUTOSAR content.
+\subsection{Automotive-Specific Studies and Gaps}
+Of the 14 surveyed papers, only three address the automotive domain directly, and each tackles a highly isolated slice of the problem. Pavel et al.~\cite{ref4} focus entirely on VSS code generation without providing a real-time detection mechanism. Balu et al.~\cite{ref5} utilize agent-based RAG for safety requirements but omit post-generation verification. Mahawatta Dona et al.~\cite{ref8} applied SelfCheckGPT to ADAS perception, but their high latency and single-subdomain focus leave significant operational voids.
+This fragmentation highlights two critical research gaps in the industry:
+\begin{itemize}
+    \item \textbf{Gap A (The Subdomain Gap):} To our knowledge, no unified benchmark or study evaluates LLM hallucinations across all four critical automotive engineering subdomains (Mechanical, Electrical, Software, and Safety) simultaneously.
+    \item \textbf{Gap B (The Usability Gap):} No deployable, real-time tool that actually \textit{detects, tests, and fixes} these errors for practitioners has been reported. Current academic solutions either run offline, suffer from high latency (taking up to 10 seconds), or merely flag errors without offering verified corrections.
+\end{itemize}
+\textit{The Verifier} itself is our direct answer to Gap B: it is the deployable, real-time detect-test-fix tool that, per the review above, no prior automotive study provides. Our answer to Gap A is different in kind: it is not a tool but a \emph{methodology}, introduced in Section~\ref{sec:eval}. Rather than testing on a single subdomain as every prior automotive paper in our review does (Pavel et al.\ on code only, Balu et al.\ on requirements text only, Mahawatta Dona et al.\ on ADAS perception only), we constructed a 300-case evaluation corpus deliberately stratified across all four subdomains simultaneously, mechanical, electrical, software/autonomous driving, and safety, with every ground-truth label traced back to one of the six reference standards rather than to a single expert's unstructured judgment. This corpus does not claim to be the exhaustive, community-scale, OEM-grade benchmark that fully closing Gap A will ultimately require; that remains future work, as discussed in Section~\ref{sec:limitations}. But to our knowledge it is the first cross-subdomain, standards-traced evaluation set of its kind in the automotive hallucination literature, and its labeling protocol (Section~\ref{sec:eval}) is offered as a concrete, extensible starting point rather than a one-off internal test set.
+\section{System Design: The Verifier}
+\subsection{Design Requirements}
+The architecture of \textit{The Verifier} is driven by three non-negotiable constraints. \emph{Two-class coverage}: The system must feature distinct layers to catch both Data-Driven and Reasoning-Driven errors~\cite{ref14}. \emph{Real-time response}: The entire verification cycle must conclude within two seconds, comfortably inside established interactive response-time thresholds~\cite{nielsen}, to prevent engineers from losing patience and bypassing the safety check. \emph{Zero-friction access}: The system should function as a black-box browser extension, capturing highlighted text without requiring the user to switch applications or possess NLP expertise.
+\subsection{Seven-Stage Pipeline}
+Each request traverses a seven-stage hybrid pipeline, executing deterministic rules before probabilistic judgments.
+\begin{itemize}
+\item \textbf{S1 --- Local Pattern Layer:} The input undergoes Unicode (NFKD) normalization. It is then scanned against 25 static rules and 7 context-aware regular expressions. This intercepts invalid VSS paths, bogus ASILs, incorrect OBD-II codes, and false CAN-bus encryption claims in under 1 ms, achieving 100\% precision on the rule set.
+\item \textbf{S2 --- TF-IDF Retrieval:} A sparse TF-IDF cosine-similarity search pulls the top 5 relevant knowledge base entries in approximately 5 ms.
+\item \textbf{S3 --- RAG Judge:} An LLM judge (running at 0.05 temperature) evaluates the input alongside the retrieved chunks in 300--400 ms, flags Reasoning-Driven faults, and drafts a grounded repair. The judge slot is model-agnostic: the evaluation reported here uses the open-weight gpt-oss-120b model served on Groq; the same slot previously ran LLaMA 3.3 70B without architectural change~\cite{models}.
+\item \textbf{S4 --- Decision Fusion:} The outputs of S1 and S3 are merged. A critical deterministic match in S1 strictly overrides the LLM's probability-based judgment.
+\item \textbf{S5 --- ROUGE-L Scoring:} The system calculates lexical overlap between the generated correction and the official knowledge base as a grounding indicator.
+\item \textbf{S6/S7 --- Persistence and Metrics:} The transaction is logged to a SQLite~\cite{tools} database, and real-time dashboard metrics are updated.
+\end{itemize}
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=0.85\columnwidth]{pic/Rag.png}}
+\caption{Seven-Stage Hybrid RAG pipeline.}
+\label{fig:pipeline}
+\end{figure}
+\subsection{Knowledge Base}
+The system's knowledge base contains 146 curated entries distilled from six authoritative sources: COVESA VSS 4.0~\cite{ref17}, ISO 26262:2018~\cite{ref15}, SOTIF ISO 21448~\cite{ref16}, SAE J1979 / CAN documentation~\cite{ref19}, AUTOSAR R22-11~\cite{ref18}, and HaluEval's linguistic catalog~\cite{ref13}. Entries are explicitly bidirectional, pairing the correct engineering fact alongside common hallucinated variants to prevent LLM ambiguity. TF-IDF~\cite{tools} was deliberately chosen over dense vector embeddings to eliminate GPU overhead, maintain sub-5 ms latency, and allow instantaneous index rebuilding when standards are updated~\cite{ref3}. The knowledge base itself is version-controlled with DVC~\cite{tools}, so every update to a standard is tracked and auditable.
+\subsection{Implementation}
+The backend relies on a FastAPI~\cite{tools} service (Python 3.11), exposing REST endpoints (\texttt{/verify}, \texttt{/history}). A Manifest V3~\cite{tools} Chrome extension serves as the frontend, allowing users to highlight text and instantly view a color-coded risk ring alongside the corrected output. Simultaneously, a Streamlit~\cite{tools} dashboard tracks live quality assurance metrics and provides ISO-compliant audit traceability. The entire stack is containerized via Docker~\cite{tools} and orchestrated using Kubernetes~\cite{tools} to ensure high availability.
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=0.85\columnwidth]{pic/pipe.png}}
+\caption{Implementation architecture.}
+\label{fig:implementation}
+\end{figure}
+\section{Evaluation}
+\label{sec:eval}
+\subsection{Evaluation Corpus: Labels Fixed by Construction}
+A common evaluation artifact occurs when the system's own risk score is used both for ground-truth labeling and for alerting, which grades the system against itself. To exclude this circularity entirely, the ground truth of our corpus is fixed \emph{by construction}, before and independently of any system run. The corpus contains 300 cases, exactly 75 per subdomain: 140 clearly hallucinated statements, each created by deliberately corrupting one identifiable fact from the six reference standards (e.g., replacing the valid \emph{Vehicle.Speed} VSS path with the invented \emph{Vehicle.Motor.Velocity}); 44 borderline statements expressing the same violations through hedged, indirect wording; and 116 correct control statements taken from the standards. Class balance is therefore 184 hallucinated / 116 correct, known in advance. Each case carries a note naming the violated fact and its source standard, replicating documented LLM error patterns (knowledge-conflation~\cite{ref4}, linguistic overconfidence~\cite{ref13}). The corpus was authored by the first author and checked against the standards; no case reuses the literal wording of the knowledge base's hallucinated-variant entries, keeping the test set independent of the rule construction. Single-annotator labeling is acknowledged as a limitation (Section~\ref{sec:limitations}); because every label reduces to a verifiable claim about a published standard, each label can be independently audited.
+\subsection{Calibrated Alert Threshold}
+The original design alerted at a risk score $\ge$50\%. A pilot inspection of the judge's outputs revealed that its scoring rubric maps a single confirmed violation to the 40--55\% range, concentrating detections at 45\%, below the original bar. We therefore calibrated the alert threshold to 40\%, aligning it with the judge's scale; results at the original 50\% threshold are reported alongside as a sensitivity analysis. This inspection used the same 300 cases later used for reporting, not a held-out set, so the calibrated-threshold metrics in Table~\ref{tab:results} should be read as a diagnosed-and-corrected calibration effect, not threshold-blind performance (Section~\ref{sec:limitations}). Borderline cases were deliberately included so that recall is genuinely able to fail; labels derive from standards, never from scores.
+\subsection{Results}
+Table~\ref{tab:results} reports the exact confusion matrix and derived metrics with 95\% Wilson confidence intervals, for the full system and for the rule layer alone (ablation), at the calibrated threshold. Table~\ref{tab:subdomain} breaks the full-system results down per subdomain; Fig.~\ref{fig:recall} visualizes the headline metrics.
+\begin{table}[htbp]
+\caption{Evaluation Results (300 Cases; Calibrated Threshold 40)}
+\label{tab:results}
+\centering
+\footnotesize
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Metric} & \textbf{Full system (S1+S3)} & \textbf{Rules only (S1)} \\
+\midrule
+TP / FP / TN / FN & 140 / 4 / 112 / 44 & 6 / 0 / 116 / 178 \\
+Accuracy (95\% CI) & 0.840 (0.794--0.877) & 0.407 (0.353--0.463) \\
+Precision & 0.972 & 1.000 \\
+Recall (95\% CI) & 0.761 (0.694--0.817) & 0.033 (0.015--0.069) \\
+F1 score & 0.854 & 0.063 \\
+\bottomrule
+\end{tabular}
+\end{table}
+\begin{table}[htbp]
+\caption{Per-Subdomain Results, Full System (TP/FP/TN/FN; Accuracy)}
+\label{tab:subdomain}
+\centering
+\footnotesize
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Subdomain} & \textbf{TP/FP/TN/FN} & \textbf{Accuracy} \\
+\midrule
+Mechanical & 37/0/29/9 & 0.880 \\
+Electrical & 30/0/29/16 & 0.787 \\
+Software/AD & 34/2/27/12 & 0.813 \\
+Safety & 39/2/27/7 & 0.880 \\
+\bottomrule
+\end{tabular}
+\end{table}
+\begin{figure}[htbp]
+\begin{minipage}{0.48\columnwidth}
+\centerline{\includegraphics[width=\columnwidth]{pic/fig1a.png}}
+\centerline{\footnotesize (a)}
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\columnwidth}
+\centerline{\includegraphics[width=\columnwidth]{pic/fig1b.png}}
+\centerline{\footnotesize (b)}
+\end{minipage}
+\caption{(a) Accuracy, precision, recall, and F1 score of The Verifier over the 300-case corpus at the calibrated threshold; error bars show 95\% Wilson confidence intervals. (b) Recall of The Verifier (four subdomains) next to SelfCheckGPT on ADAS text~\cite{ref8} and AST-based code checking~\cite{ref9}; the prior-work figures are measured on their own single-domain datasets and provide context, not a controlled comparison.}
+\label{fig:recall}
+\end{figure}
+\emph{Ablation.} The rule layer alone achieves perfect precision but only 0.033 recall: deterministic patterns are precise and instantaneous but narrow. The LLM judge lifts recall to 0.761, providing the large majority of detection coverage and confirming that the hybrid two-layer design, rather than either layer alone, is what makes the system viable. The rule layer produced zero false positives; the full system produced four (correct statements scored 45\% by the judge), matching the FP count in Table~\ref{tab:results} and Table~\ref{tab:subdomain}.
+\emph{Score calibration (sensitivity).} Of the 184 hallucinated cases, 140 (76\%) receive elevated scores ($\ge$40\%), while 112 of the 116 correct statements score 10\% or below (maximum 45\%). Detected single violations concentrate at exactly 45\%, consistent with the judge's rubric mapping one confirmed issue to 40--55\%. Under the original 50\% threshold the system would alert on only 11 cases (accuracy 0.423, recall 0.060), which is why the threshold was aligned to the judge's scale; a rubric recalibration that maps confirmed violations above the alert bar is a planned complementary fix.
+\emph{Latency.} The deployed configuration previously measured a mean end-to-end latency of 1{,}259 ms, within the 2-second target; during the present evaluation, median latency rose to approximately 6 s, an artifact of free-tier API queueing and rate-limit retries rather than of the architecture, whose computational floor (S1+S2 under 6 ms; judge inference 300--400 ms) remains well below one second on a dedicated service tier.
+\subsection{Comparative Analysis}
+When benchmarked conceptually against SelfCheckGPT~\cite{ref7,ref8}, AST validation~\cite{ref9}, and Na\"ive RAG~\cite{ref11}, \textit{The Verifier} is the only framework to encompass both causal hallucination categories, provide verifiable repairs, execute under two seconds, and explicitly target automotive standards. While our 0.761 recall is lower than single-domain experiments (like SelfCheckGPT's 91.43\%~\cite{ref8}), those studies operated in simpler, single-category environments; the figures from prior work are each measured on the original authors' own datasets rather than a controlled re-run on our own corpus, and therefore provide context, not a controlled benchmark comparison. A controlled re-run of these baselines on our corpus is planned future work.
+\section{Limitations and Future Work}
+\label{sec:limitations}
+The evaluation reveals limitations we state plainly. (1) The rule layer's recall is bounded by its pattern set. (2) The judge's scoring is conservatively calibrated with respect to the alert threshold; recalibrating the scoring rubric is planned. (3) The 40\% threshold was calibrated on these same 300 cases rather than a held-out pilot set (Section~\ref{sec:eval}-B); results at this threshold may be mildly optimistic, and calibrating on a disjoint split is planned. (4) The corpus is constructed (fault injection of documented LLM error patterns) rather than harvested from live LLM output; in a supplementary check, live LLM answers to common automotive questions were all correct and all scored below the alert threshold (no false positives on real output), and collecting genuinely hallucinated live answers using weaker models and adversarial prompts is our stated next step. (5) Labels were assigned by a single annotator, though each is auditable against a published standard; adding a second annotator and reporting Cohen's $\kappa$ is planned. (6) The knowledge base encapsulates 146 critical entries rather than the thousands of pages comprising the full standards. Further planned improvements include: replacing TF-IDF with dense vector retrieval (ChromaDB) to better resist paraphrase evasion, accepting an estimated 200--300 ms latency tradeoff; fine-tuning a local LLaMA 8B model to remove reliance on external cloud APIs, satisfying OEM data privacy mandates; supporting pluggable, private knowledge bases so manufacturers can layer proprietary guidelines on top of the six public standards without retraining the pipeline; and generalizing the architecture to other safety-critical fields such as aerospace or medical devices. Ultimately, fully resolving Gap A will require the broader community to establish an open, OEM-grade benchmark dataset across all four subdomains, building on the stratified, standards-traced labeling protocol introduced in Section~\ref{sec:eval}.
+\section{Conclusion}
+The causal hallucination taxonomy proposed by Zeng et al.~\cite{ref14} serves not just as a classification system, but as a highly effective blueprint for software architecture. By deploying a deterministic rule engine, the Data-Driven errors within its finite rule set are neutralized in under a millisecond with zero false alarms, though this layer alone recovers only 3.3\% of hallucinations overall -- why it is paired with, not substituted by, the LLM judge, which intercepts the remaining Reasoning-Driven errors and drafts repairs anchored in official standards. Evaluated on a 300-case, cross-subdomain, standards-traced corpus with labels fixed by construction, \textit{The Verifier} reaches 0.840 accuracy, 0.972 precision, 0.761 recall, and an F1 score of 0.854 at its calibrated operating point, detecting 76\% of hallucinations with four false alarms, versus 0.033 recall for the rule layer alone, quantifying for the first time on a common automotive corpus the contribution of each layer of a hybrid design. The evaluation also surfaced a concrete, fixable score-calibration effect, demonstrating the diagnostic value of a decoupled, auditable protocol. Operating entirely in real-time within the engineer's natural workflow, this hybrid system offers a scalable template for detecting, testing, and fixing LLM errors in critical engineering domains.
+\begin{thebibliography}{00}
+\scriptsize
+\bibitem{ref1} Z. Ji, N. Lee, R. Frieske, T. Yu, D. Su, Y. Xu, E. Ishii, Y. J. Bang, D. Chen, W. Dai, H. S. Chan, A. Madotto, and P. Fung, ``Survey of hallucination in natural language generation,'' \emph{ACM Computing Surveys}, vol. 55, no. 12, pp. 1--38, Mar. 2023, doi: 10.1145/3571730.
+\bibitem{ref2} L. Huang, W. Yu, W. Ma, W. Zhong, Z. Feng, H. Wang, Q. Chen, W. Peng, X. Feng, B. Qin, and T. Liu, ``A survey on hallucination in large language models: Principles, taxonomy, challenges, and open questions,'' \emph{ACM Transactions on Information Systems}, vol. 43, no. 2, pp. 1--55, 2025, doi: 10.1145/3703155.
+\bibitem{ref3} S. Joshi, ``Mitigating LLM hallucinations: A comprehensive review of techniques and architectures,'' SSRN, 2025, doi: 10.2139/ssrn.5267540.
+\bibitem{ref4} M. Pavel, N. Petrovic, L. Mazur, V. Zolfaghari, F. Pan, and A. Knoll, ``Hallucination in LLM-based code generation: An automotive case study,'' \emph{IEEE Access}, 2025, arXiv:2508.11257, doi: 10.48550/arXiv.2508.11257.
+\bibitem{ref5} B. V. Balu, F. Geissler, F. Carella, J.-V. Zacchi, J. Jiru, N. Mata, and R. Stolle, ``Towards automated safety requirements derivation using agent-based RAG,'' arXiv:2504.11243, 2025, doi: 10.48550/arXiv.2504.11243.
+\bibitem{nielsen} J. Nielsen, ``Response Times: The Three Important Limits,'' Nielsen Norman Group, 1993. \url{https://www.nngroup.com/articles/response-times-3-important-limits/} (accessed Oct. 2026).
+\bibitem{ref7} P. Manakul, A. Liusie, and M. Gales, ``SelfCheckGPT: Zero-resource black-box hallucination detection for generative large language models,'' in \emph{Proc. EMNLP}, 2023, pp. 9004--9017, doi: 10.18653/v1/2023.emnlp-main.557.
+\bibitem{ref8} M. A. Mahawatta Dona, B. Cabrero-Daniel, Y. Yu, and C. Berger, ``LLMs can check their own results to mitigate hallucinations in traffic understanding tasks,'' in \emph{Proc. 36th IFIP Int. Conf. on Testing Software and Systems (ICTSS)}, London, UK, Oct. 2024, \emph{Lecture Notes in Computer Science}, Springer, 2025, pp. 114--130, doi: 10.1007/978-3-031-80889-0\_8.
+\bibitem{ref9} D. Khati, D. Rodriguez-Cardenas, P. Pantzer, and D. Poshyvanyk, ``Detecting and correcting hallucinations in LLM-generated code via deterministic AST analysis,'' in \emph{Proc. IEEE/ACM Int. Conf. on AI Foundation Models and Software Engineering (FORGE)}, Rio de Janeiro, Brazil, Apr. 2026, pp. 1--5, doi: 10.1145/3793655.3793725.
+\bibitem{ref10} S. Min, K. Krishna, X. Lyu, M. Lewis, W. Yih, P. W. Koh, M. Iyyer, L. Zettlemoyer, and H. Hajishirzi, ``FActScore: Fine-grained atomic evaluation of factual precision in long form text generation,'' in \emph{Proc. EMNLP}, 2023, pp. 12076--12100, doi: 10.18653/v1/2023.emnlp-main.741.
+\bibitem{ref11} S. AboulEla, P. Zabihitari, N. Ibrahim, M. Afshar, and R. Kashef, ``Exploring RAG solutions to reduce hallucinations in LLMs,'' in \emph{2025 IEEE Int. Systems Conf. (SysCon)}, Montreal, QC, Canada, 2025, pp. 1--8, doi: 10.1109/SysCon64521.2025.11014810.
+\bibitem{ref12} S. Lin, J. Hilton, and O. Evans, ``TruthfulQA: Measuring how models mimic human falsehoods,'' in \emph{Proc. ACL}, 2022, pp. 3214--3252, doi: 10.18653/v1/2022.acl-long.229.
+\bibitem{ref13} J. Li, X. Cheng, W. X. Zhao, J.-Y. Nie, and J.-R. Wen, ``HaluEval: A large-scale hallucination evaluation benchmark for large language models,'' in \emph{Proc. EMNLP}, 2023, pp. 6449--6464, doi: 10.18653/v1/2023.emnlp-main.397.
+\bibitem{ref14} X. Zeng, J. Lin, Y. Yan, F. Guo, L. Shi, J. Wu, and D. Zhou, ``HalluGuard: Demystifying data-driven and reasoning-driven hallucinations in LLMs,'' arXiv:2601.18753, 2026, doi: 10.48550/arXiv.2601.18753.
+\bibitem{ref15} ISO 26262:2018, \emph{Road Vehicles --- Functional Safety}, ISO, Geneva, 2018.
+\bibitem{ref16} ISO 21448:2022, \emph{Road Vehicles --- Safety of the Intended Functionality (SOTIF)}, ISO, Geneva, 2022.
+\bibitem{ref17} COVESA, \emph{Vehicle Signal Specification (VSS) v4.0}, 2023. \url{https://covesa.github.io/vehicle_signal_specification/} (accessed Oct. 2026).
+\bibitem{ref18} AUTOSAR, \emph{Release R22-11 Specifications}, 2022. \url{https://www.autosar.org} (accessed Oct. 2026).
+\bibitem{ref19} SAE J1979:2017 / ISO 15765-4:2016, \emph{OBD-II Diagnostic Services over Controller Area Network (CAN)}, SAE International / ISO.
+\bibitem{models} Meta AI, \emph{Llama 3.3 70B Model Card}, 2024, \url{https://ai.meta.com/llama/}; Groq Inc., \emph{GroqCloud API Docs}, 2025, \url{https://console.groq.com/docs}; OpenAI, \emph{gpt-oss-120b Model Card}, 2025, \url{https://huggingface.co/openai/gpt-oss-120b} (accessed Oct. 2026).
+\bibitem{tools} S. Ram\'irez, \emph{FastAPI}, \url{https://fastapi.tiangolo.com}; Scikit-learn Devs, \emph{Scikit-learn}, \url{https://scikit-learn.org}; Streamlit Inc., \emph{Streamlit}, \url{https://streamlit.io}; SQLite Consortium, \emph{SQLite}, \url{https://www.sqlite.org}; Iterative Inc., \emph{DVC}, \url{https://dvc.org}; Docker Inc., \emph{Docker}, \url{https://docs.docker.com}; Kubernetes Authors, \emph{Kubernetes}, \url{https://kubernetes.io/docs/}; Google, \emph{Manifest V3}, \url{https://developer.chrome.com/docs/extensions} (accessed Oct. 2026).
+\bibitem{rouge} C.-Y. Lin, ``ROUGE: A package for automatic evaluation of summaries,'' in \emph{Text Summarization Branches Out: Proc. ACL-04 Workshop}, Barcelona, Spain, Jul. 2004, pp. 74--81.
+\end{thebibliography}
+\end{document}

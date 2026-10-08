@@ -70,12 +70,12 @@ async function loadLiveMetrics() {
         </div>
         <div class="metric-badge" style="border-top-color:${accColor}">
           <div class="metric-label">Accuracy</div>
-          <div class="metric-val" style="color:${accColor}">${acc ? acc.toFixed(3) : "—"}</div>
+          <div class="metric-val" style="color:${accColor}">${acc != null ? acc.toFixed(3) : "—"}</div>
           <div class="metric-note">correct/total</div>
         </div>
         <div class="metric-badge" style="border-top-color:${recColor}">
           <div class="metric-label">Recall</div>
-          <div class="metric-val" style="color:${recColor}">${rec ? rec.toFixed(3) : "—"}</div>
+          <div class="metric-val" style="color:${recColor}">${rec != null ? rec.toFixed(3) : "—"}</div>
           <div class="metric-note">caught</div>
         </div>`;
     } else {

@@ -1,0 +1,2402 @@
+[
+ {
+  "id": 1,
+  "subdomain": "mechanical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "The ABS module reacts within 1 ms of wheel lock detection, guaranteeing instant braking.",
+  "note": "ABS real response 50-150 ms"
+ },
+ {
+  "id": 2,
+  "subdomain": "mechanical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Our anti-lock braking system responds in under a millisecond on every surface.",
+  "note": "ABS timing"
+ },
+ {
+  "id": 3,
+  "subdomain": "mechanical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Modern ABS units complete a full pressure modulation cycle in 0.5 ms.",
+  "note": "ABS timing"
+ },
+ {
+  "id": 4,
+  "subdomain": "mechanical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Emergency braking assist eliminates stopping distance entirely at speeds below 30 km/h.",
+  "note": "physically impossible"
+ },
+ {
+  "id": 5,
+  "subdomain": "mechanical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Regenerative braking recovers 100% of kinetic energy back into the battery.",
+  "note": "100% claim"
+ },
+ {
+  "id": 6,
+  "subdomain": "mechanical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "ESC systems correct oversteer within 1 ms by braking individual wheels.",
+  "note": "timing"
+ },
+ {
+  "id": 7,
+  "subdomain": "mechanical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Brake-by-wire removes all hydraulic latency, making response time effectively zero.",
+  "note": "zero-latency claim"
+ },
+ {
+  "id": 8,
+  "subdomain": "mechanical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Carbon-ceramic brakes never fade regardless of temperature.",
+  "note": "absolute claim"
+ },
+ {
+  "id": 9,
+  "subdomain": "mechanical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "The traction control system prevents 100% of wheel slip events.",
+  "note": "100% claim"
+ },
+ {
+  "id": 10,
+  "subdomain": "mechanical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Tire pressure monitoring reacts to a puncture in under 1 ms.",
+  "note": "timing"
+ },
+ {
+  "id": 11,
+  "subdomain": "mechanical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "ABS guarantees the shortest possible stopping distance on every road surface.",
+  "note": "false on gravel/snow"
+ },
+ {
+  "id": 12,
+  "subdomain": "mechanical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Adaptive dampers switch stiffness settings with zero response latency.",
+  "note": "zero-latency claim"
+ },
+ {
+  "id": 13,
+  "subdomain": "mechanical",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "The braking controller is theoretically optimized to achieve near-instantaneous, single-millisecond latency in production vehicles.",
+  "note": "hedged ABS timing"
+ },
+ {
+  "id": 14,
+  "subdomain": "mechanical",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "Field data suggests our ABS approaches sub-millisecond reaction under ideal conditions.",
+  "note": "hedged ABS timing"
+ },
+ {
+  "id": 15,
+  "subdomain": "mechanical",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "The system practically eliminates stopping distance in most urban scenarios.",
+  "note": "hedged impossible claim"
+ },
+ {
+  "id": 16,
+  "subdomain": "mechanical",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "Pressure modulation is effectively instantaneous from the driver's perspective, around a millisecond.",
+  "note": "hedged timing"
+ },
+ {
+  "id": 17,
+  "subdomain": "mechanical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Typical ABS systems modulate brake pressure with response times in the range of 50 to 150 ms.",
+  "note": "correct"
+ },
+ {
+  "id": 18,
+  "subdomain": "mechanical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "ABS reduces the risk of wheel lock but can increase stopping distance on loose gravel.",
+  "note": "correct"
+ },
+ {
+  "id": 19,
+  "subdomain": "mechanical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Electronic stability control brakes individual wheels to help the driver maintain the intended path.",
+  "note": "correct"
+ },
+ {
+  "id": 20,
+  "subdomain": "mechanical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Brake fade occurs when friction material overheats, reducing braking effectiveness.",
+  "note": "correct"
+ },
+ {
+  "id": 21,
+  "subdomain": "mechanical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Tire pressure monitoring systems warn the driver when pressure drops significantly below the recommended value.",
+  "note": "correct"
+ },
+ {
+  "id": 22,
+  "subdomain": "mechanical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Regenerative braking converts part of the vehicle's kinetic energy into electrical energy.",
+  "note": "correct"
+ },
+ {
+  "id": 23,
+  "subdomain": "mechanical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "The handbrake mechanically locks the rear wheels and is independent of the hydraulic circuit.",
+  "note": "correct"
+ },
+ {
+  "id": 24,
+  "subdomain": "mechanical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Disc brakes dissipate heat more effectively than drum brakes under repeated braking.",
+  "note": "correct"
+ },
+ {
+  "id": 25,
+  "subdomain": "mechanical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "ABS sensors measure wheel speed using toothed rings and magnetic pickups.",
+  "note": "correct"
+ },
+ {
+  "id": 26,
+  "subdomain": "mechanical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Stopping distance grows roughly with the square of vehicle speed.",
+  "note": "correct"
+ },
+ {
+  "id": 27,
+  "subdomain": "electrical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "All CAN bus frames are encrypted end-to-end by default per the CAN 2.0 specification.",
+  "note": "CAN has no built-in encryption"
+ },
+ {
+  "id": 28,
+  "subdomain": "electrical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Classic CAN natively supports AES-256 encryption on every message.",
+  "note": "CAN security"
+ },
+ {
+  "id": 29,
+  "subdomain": "electrical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "The CAN protocol authenticates each node cryptographically before transmission.",
+  "note": "CAN security"
+ },
+ {
+  "id": 30,
+  "subdomain": "electrical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Classic CAN reaches data rates of 10 Mbps on a standard twisted pair.",
+  "note": "classic CAN max 1 Mbps"
+ },
+ {
+  "id": 31,
+  "subdomain": "electrical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "OBD-II service 01 PID 0x0D returns engine RPM.",
+  "note": "0x0D is vehicle speed"
+ },
+ {
+  "id": 32,
+  "subdomain": "electrical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "OBD-II PID 0x0C reports vehicle speed in km/h.",
+  "note": "0x0C is RPM"
+ },
+ {
+  "id": 33,
+  "subdomain": "electrical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "The OBD-II port provides direct write access to reflash any ECU without authentication, as required by law.",
+  "note": "false"
+ },
+ {
+  "id": 34,
+  "subdomain": "electrical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "LIN bus offers higher bandwidth than CAN FD.",
+  "note": "LIN is low-speed"
+ },
+ {
+  "id": 35,
+  "subdomain": "electrical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Automotive Ethernet replaced CAN entirely in all vehicles produced after 2020.",
+  "note": "false"
+ },
+ {
+  "id": 36,
+  "subdomain": "electrical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "CAN FD frames carry up to 512 data bytes.",
+  "note": "CAN FD max 64 bytes"
+ },
+ {
+  "id": 37,
+  "subdomain": "electrical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "OBD-II diagnostics work over Bluetooth natively without any adapter hardware.",
+  "note": "false"
+ },
+ {
+  "id": 38,
+  "subdomain": "electrical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "CAN arbitration guarantees zero message latency for all nodes.",
+  "note": "false; low-priority frames wait"
+ },
+ {
+  "id": 39,
+  "subdomain": "electrical",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "For practical purposes, traffic on the CAN bus can be considered protected against tampering out of the box.",
+  "note": "hedged CAN security"
+ },
+ {
+  "id": 40,
+  "subdomain": "electrical",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "The diagnostic port effectively exposes full reprogramming capability to any connected tool.",
+  "note": "hedged overclaim"
+ },
+ {
+  "id": 41,
+  "subdomain": "electrical",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "Classic CAN throughput approaches ten megabits under optimal wiring.",
+  "note": "hedged bitrate error"
+ },
+ {
+  "id": 42,
+  "subdomain": "electrical",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "Messages on the bus are, in effect, authenticated by their identifier.",
+  "note": "IDs are not authentication"
+ },
+ {
+  "id": 43,
+  "subdomain": "electrical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Classic CAN supports data rates up to 1 Mbps; CAN FD raises the payload limit to 64 bytes.",
+  "note": "correct"
+ },
+ {
+  "id": 44,
+  "subdomain": "electrical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "The CAN protocol has no built-in encryption or authentication; security must be added at higher layers.",
+  "note": "correct"
+ },
+ {
+  "id": 45,
+  "subdomain": "electrical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "OBD-II service 01 PID 0x0C reports engine RPM and PID 0x0D reports vehicle speed.",
+  "note": "correct"
+ },
+ {
+  "id": 46,
+  "subdomain": "electrical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "CAN arbitration is priority-based: the frame with the dominant identifier wins the bus.",
+  "note": "correct"
+ },
+ {
+  "id": 47,
+  "subdomain": "electrical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "LIN is a low-cost, single-wire bus typically used for body electronics like window lifters.",
+  "note": "correct"
+ },
+ {
+  "id": 48,
+  "subdomain": "electrical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Modern vehicles combine CAN, LIN, FlexRay, and automotive Ethernet depending on bandwidth needs.",
+  "note": "correct"
+ },
+ {
+  "id": 49,
+  "subdomain": "electrical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "The OBD-II connector is standardized, and emissions-related data is accessible via defined PIDs.",
+  "note": "correct"
+ },
+ {
+  "id": 50,
+  "subdomain": "electrical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "CAN FD supports higher bit rates during the data phase than classic CAN.",
+  "note": "correct"
+ },
+ {
+  "id": 51,
+  "subdomain": "electrical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Twisted-pair wiring reduces electromagnetic interference on the CAN bus.",
+  "note": "correct"
+ },
+ {
+  "id": 52,
+  "subdomain": "electrical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "A vehicle's low-voltage system is nominally 12 V, with 48 V used in mild-hybrid architectures.",
+  "note": "correct"
+ },
+ {
+  "id": 53,
+  "subdomain": "software",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Subscribe to Vehicle.Motor.Velocity in VSS 4.0 to read the current speed signal.",
+  "note": "invalid VSS path; Vehicle.Speed"
+ },
+ {
+  "id": 54,
+  "subdomain": "software",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "The COVESA VSS path Vehicle.Engine.RPM.Current returns engine speed.",
+  "note": "invalid VSS path"
+ },
+ {
+  "id": 55,
+  "subdomain": "software",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Use Vehicle.Speedometer.Value from VSS to obtain wheel-based speed.",
+  "note": "invalid VSS path"
+ },
+ {
+  "id": 56,
+  "subdomain": "software",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "ara::com is the standard communication middleware of Classic AUTOSAR.",
+  "note": "ara::com is Adaptive-only"
+ },
+ {
+  "id": 57,
+  "subdomain": "software",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Classic AUTOSAR applications are deployed as POSIX processes.",
+  "note": "that is Adaptive"
+ },
+ {
+  "id": 58,
+  "subdomain": "software",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Adaptive AUTOSAR runs bare-metal without any operating system.",
+  "note": "Adaptive needs POSIX OS"
+ },
+ {
+  "id": 59,
+  "subdomain": "software",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "SAE J3016 defines six levels of driving automation, up to Level 6 full autonomy.",
+  "note": "levels 0-5"
+ },
+ {
+  "id": 60,
+  "subdomain": "software",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Our lane-keeping AI achieves 100% detection accuracy in all weather conditions.",
+  "note": "100% claim"
+ },
+ {
+  "id": 61,
+  "subdomain": "software",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "The RTE in Adaptive AUTOSAR generates static communication paths at compile time.",
+  "note": "RTE is Classic"
+ },
+ {
+  "id": 62,
+  "subdomain": "software",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "VSS 4.0 mandates that all signals be transmitted over MQTT.",
+  "note": "VSS is transport-agnostic"
+ },
+ {
+  "id": 63,
+  "subdomain": "software",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Level 3 systems never require the driver to take over.",
+  "note": "false; takeover requests exist"
+ },
+ {
+  "id": 64,
+  "subdomain": "software",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Vehicle.Battery.Percent is the VSS 4.0 path for battery state of charge.",
+  "note": "invalid VSS path"
+ },
+ {
+  "id": 65,
+  "subdomain": "software",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "In practice the speed signal lives somewhere under Vehicle.Motor in the VSS tree.",
+  "note": "hedged invalid path"
+ },
+ {
+  "id": 66,
+  "subdomain": "software",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "The middleware situation is effectively the same across Classic and Adaptive platforms.",
+  "note": "hedged conflation"
+ },
+ {
+  "id": 67,
+  "subdomain": "software",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "Full autonomy is essentially solved for highway scenarios by current Level 2 systems.",
+  "note": "hedged overclaim"
+ },
+ {
+  "id": 68,
+  "subdomain": "software",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "Signal naming in VSS is flexible enough that Engine.RPM will usually resolve.",
+  "note": "hedged invalid path"
+ },
+ {
+  "id": 69,
+  "subdomain": "software",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "In COVESA VSS 4.0, Vehicle.Speed provides the wheel-based vehicle speed in km/h.",
+  "note": "correct"
+ },
+ {
+  "id": 70,
+  "subdomain": "software",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "ara::com is the service-oriented communication middleware of the AUTOSAR Adaptive Platform.",
+  "note": "correct"
+ },
+ {
+  "id": 71,
+  "subdomain": "software",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Classic AUTOSAR targets deeply embedded ECUs with a statically configured RTE.",
+  "note": "correct"
+ },
+ {
+  "id": 72,
+  "subdomain": "software",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Adaptive AUTOSAR applications run as processes on a POSIX-compliant operating system.",
+  "note": "correct"
+ },
+ {
+  "id": 73,
+  "subdomain": "software",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "SAE J3016 defines driving automation levels 0 through 5.",
+  "note": "correct"
+ },
+ {
+  "id": 74,
+  "subdomain": "software",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "At SAE Level 3, the driver must be ready to take over when the system requests.",
+  "note": "correct"
+ },
+ {
+  "id": 75,
+  "subdomain": "software",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "VSS defines a hierarchical, standardized naming tree for vehicle signals.",
+  "note": "correct"
+ },
+ {
+  "id": 76,
+  "subdomain": "software",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Service discovery in Adaptive AUTOSAR uses SOME/IP.",
+  "note": "correct"
+ },
+ {
+  "id": 77,
+  "subdomain": "software",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Sensor fusion combines camera, radar, and lidar data to improve perception robustness.",
+  "note": "correct"
+ },
+ {
+  "id": 78,
+  "subdomain": "software",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Code generated from Simulink models is common in powertrain control software.",
+  "note": "correct"
+ },
+ {
+  "id": 79,
+  "subdomain": "safety",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "The steering function was rated ASIL Z, the highest integrity level in ISO 26262.",
+  "note": "ASIL A-D only"
+ },
+ {
+  "id": 80,
+  "subdomain": "safety",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "ISO 26262 defines five ASIL levels, A through E.",
+  "note": "four levels A-D"
+ },
+ {
+  "id": 81,
+  "subdomain": "safety",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Airbag deployment is classified ASIL F in most OEM safety cases.",
+  "note": "no ASIL F"
+ },
+ {
+  "id": 82,
+  "subdomain": "safety",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "We assigned ASIL D to the braking function; a HARA was unnecessary because the risk is obvious.",
+  "note": "HARA is mandatory"
+ },
+ {
+  "id": 83,
+  "subdomain": "safety",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Skipping the hazard analysis is acceptable for carry-over components under ISO 26262.",
+  "note": "false"
+ },
+ {
+  "id": 84,
+  "subdomain": "safety",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "ISO 26262 Part 15 covers machine learning safety.",
+  "note": "parts 1-12 only"
+ },
+ {
+  "id": 85,
+  "subdomain": "safety",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Clause 9.4.7 of ISO 26262:2018 exempts prototypes from functional safety requirements.",
+  "note": "fabricated clause"
+ },
+ {
+  "id": 86,
+  "subdomain": "safety",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "SOTIF and ISO 26262 functional safety are the same standard under different names.",
+  "note": "distinct standards"
+ },
+ {
+  "id": 87,
+  "subdomain": "safety",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "ISO 21448 replaced ISO 26262 in 2022.",
+  "note": "complementary, not replacement"
+ },
+ {
+  "id": 88,
+  "subdomain": "safety",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "A QM rating means the component is more critical than ASIL D.",
+  "note": "QM is below ASIL A"
+ },
+ {
+  "id": 89,
+  "subdomain": "safety",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Formal verification guarantees 100% freedom from all software faults.",
+  "note": "100% claim"
+ },
+ {
+  "id": 90,
+  "subdomain": "safety",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Our safety case eliminates all residual risk completely.",
+  "note": "absolute claim"
+ },
+ {
+  "id": 91,
+  "subdomain": "safety",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "For a function this critical, the integrity level is self-evident, so the formal hazard analysis added little and was streamlined away.",
+  "note": "hedged HARA skip"
+ },
+ {
+  "id": 92,
+  "subdomain": "safety",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "The component effectively sits above ASIL D in terms of required rigor.",
+  "note": "hedged fake level"
+ },
+ {
+  "id": 93,
+  "subdomain": "safety",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "Residual risk is practically zero after our verification campaign.",
+  "note": "hedged absolute claim"
+ },
+ {
+  "id": 94,
+  "subdomain": "safety",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "The SOTIF activities largely duplicate what functional safety already covers, so one report served for both.",
+  "note": "hedged conflation"
+ },
+ {
+  "id": 95,
+  "subdomain": "safety",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "ISO 26262 defines four ASIL levels, A through D, with D requiring the most rigorous measures.",
+  "note": "correct"
+ },
+ {
+  "id": 96,
+  "subdomain": "safety",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "The ASIL of a function is determined through a hazard analysis and risk assessment (HARA).",
+  "note": "correct"
+ },
+ {
+  "id": 97,
+  "subdomain": "safety",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "QM designates quality-managed development without additional ISO 26262 safety measures.",
+  "note": "correct"
+ },
+ {
+  "id": 98,
+  "subdomain": "safety",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "SOTIF (ISO 21448) addresses hazards from functional insufficiencies, complementing ISO 26262.",
+  "note": "correct"
+ },
+ {
+  "id": 99,
+  "subdomain": "safety",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "ASIL decomposition must follow the rules of ISO 26262 Part 9, preserving the original safety requirement.",
+  "note": "correct"
+ },
+ {
+  "id": 100,
+  "subdomain": "safety",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Severity, exposure, and controllability determine the ASIL rating in the HARA.",
+  "note": "correct"
+ },
+ {
+  "id": 101,
+  "subdomain": "safety",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "ISO 26262:2018 is organized into twelve parts covering the automotive safety lifecycle.",
+  "note": "correct"
+ },
+ {
+  "id": 102,
+  "subdomain": "safety",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Controllability in the HARA reflects how easily a driver can avoid harm when a fault occurs.",
+  "note": "correct"
+ },
+ {
+  "id": 103,
+  "subdomain": "safety",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "An item definition scopes the system before hazard analysis begins in ISO 26262.",
+  "note": "correct"
+ },
+ {
+  "id": 104,
+  "subdomain": "safety",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Functional safety requirements are allocated to hardware and software during system design.",
+  "note": "correct"
+ },
+ {
+  "id": 105,
+  "subdomain": "mechanical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Engine oil never degrades and should only be replaced every 200,000 km under normal driving.",
+  "note": "oil requires periodic replacement, ~10-15k km"
+ },
+ {
+  "id": 106,
+  "subdomain": "mechanical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Disc brake pads regenerate their friction material automatically during highway driving.",
+  "note": "pads wear, no regeneration"
+ },
+ {
+  "id": 107,
+  "subdomain": "mechanical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "The catalytic converter reaches optimal operation at minus 40 degrees Celsius.",
+  "note": "needs high exhaust temperatures"
+ },
+ {
+  "id": 108,
+  "subdomain": "mechanical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "A standard passenger-car clutch transmits torque using magnetic levitation.",
+  "note": "friction-based"
+ },
+ {
+  "id": 109,
+  "subdomain": "mechanical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Doubling the recommended tire pressure improves grip in all conditions.",
+  "note": "overinflation reduces contact patch"
+ },
+ {
+  "id": 110,
+  "subdomain": "mechanical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Timing belts never require replacement for the life of the vehicle.",
+  "note": "scheduled replacement item"
+ },
+ {
+  "id": 111,
+  "subdomain": "mechanical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "A torque converter eliminates all transmission power losses.",
+  "note": "converters have slip losses"
+ },
+ {
+  "id": 112,
+  "subdomain": "mechanical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Drum brakes cool faster than disc brakes under repeated heavy braking.",
+  "note": "discs dissipate heat better"
+ },
+ {
+  "id": 113,
+  "subdomain": "mechanical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "The airbag inflates in exactly 10 seconds after impact.",
+  "note": "deploys in ~20-50 ms"
+ },
+ {
+  "id": 114,
+  "subdomain": "mechanical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Suspension springs must be replaced after every 1,000 km.",
+  "note": "springs last far longer"
+ },
+ {
+  "id": 115,
+  "subdomain": "mechanical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Modern combustion engines achieve 100% thermal efficiency.",
+  "note": "~30-40% typical"
+ },
+ {
+  "id": 116,
+  "subdomain": "mechanical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Worn shock absorbers have no effect on braking distance.",
+  "note": "they lengthen it on uneven roads"
+ },
+ {
+  "id": 117,
+  "subdomain": "mechanical",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "In practice, brake pad wear is negligible over the vehicle's lifetime.",
+  "note": "hedged: pads wear"
+ },
+ {
+  "id": 118,
+  "subdomain": "mechanical",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "Airbag deployment can be considered effectively instantaneous, on the order of seconds.",
+  "note": "hedged: ms not seconds"
+ },
+ {
+  "id": 119,
+  "subdomain": "mechanical",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "Thermal efficiency of current engines is essentially total.",
+  "note": "hedged 100% claim"
+ },
+ {
+  "id": 120,
+  "subdomain": "mechanical",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "Doubling tire pressure is generally understood to enhance road holding.",
+  "note": "hedged overinflation claim"
+ },
+ {
+  "id": 121,
+  "subdomain": "mechanical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Airbags typically deploy within 20 to 50 milliseconds of impact detection.",
+  "note": "correct"
+ },
+ {
+  "id": 122,
+  "subdomain": "mechanical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Engine oil degrades over time and requires periodic replacement.",
+  "note": "correct"
+ },
+ {
+  "id": 123,
+  "subdomain": "mechanical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "The catalytic converter requires high exhaust temperatures to operate efficiently.",
+  "note": "correct"
+ },
+ {
+  "id": 124,
+  "subdomain": "mechanical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "A torque converter allows the engine to keep running while the vehicle is stopped.",
+  "note": "correct"
+ },
+ {
+  "id": 125,
+  "subdomain": "mechanical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Underinflated tires increase rolling resistance and fuel consumption.",
+  "note": "correct"
+ },
+ {
+  "id": 126,
+  "subdomain": "mechanical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "The timing belt synchronizes the rotation of the crankshaft and camshaft.",
+  "note": "correct"
+ },
+ {
+  "id": 127,
+  "subdomain": "mechanical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Disc brakes generally dissipate heat better than drum brakes.",
+  "note": "correct"
+ },
+ {
+  "id": 128,
+  "subdomain": "mechanical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Modern gasoline engines have thermal efficiency around 30 to 40 percent.",
+  "note": "correct"
+ },
+ {
+  "id": 129,
+  "subdomain": "mechanical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Worn shock absorbers lengthen braking distance on uneven roads.",
+  "note": "correct"
+ },
+ {
+  "id": 130,
+  "subdomain": "mechanical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "The clutch transmits engine torque to the gearbox by friction.",
+  "note": "correct"
+ },
+ {
+  "id": 131,
+  "subdomain": "electrical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "The FlexRay bus operates at a maximum of 10 kbps.",
+  "note": "FlexRay up to 10 Mbps"
+ },
+ {
+  "id": 132,
+  "subdomain": "electrical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Automotive relays switch loads using optical fibers inside the relay body.",
+  "note": "electromagnetic switching"
+ },
+ {
+  "id": 133,
+  "subdomain": "electrical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "A car battery stores and supplies energy as alternating current.",
+  "note": "batteries are DC"
+ },
+ {
+  "id": 134,
+  "subdomain": "electrical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "The CAN bus uses a single wire with no ground reference in all vehicles.",
+  "note": "differential twisted pair"
+ },
+ {
+  "id": 135,
+  "subdomain": "electrical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "OBD-II Mode 03 clears all diagnostic trouble codes.",
+  "note": "Mode 04 clears; 03 reads"
+ },
+ {
+  "id": 136,
+  "subdomain": "electrical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Fuses protect circuits by increasing the current when a fault occurs.",
+  "note": "fuses open the circuit"
+ },
+ {
+  "id": 137,
+  "subdomain": "electrical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "The alternator charges the battery only when the engine is off.",
+  "note": "charges while engine runs"
+ },
+ {
+  "id": 138,
+  "subdomain": "electrical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "LIN communication uses differential twisted-pair signaling like CAN.",
+  "note": "LIN is single-wire"
+ },
+ {
+  "id": 139,
+  "subdomain": "electrical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Automotive Ethernet 100BASE-T1 requires four twisted pairs.",
+  "note": "single pair"
+ },
+ {
+  "id": 140,
+  "subdomain": "electrical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "The starter motor runs continuously while driving to support the engine.",
+  "note": "only for cranking"
+ },
+ {
+  "id": 141,
+  "subdomain": "electrical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "LED headlights consume more power than equivalent halogen bulbs.",
+  "note": "LEDs consume less"
+ },
+ {
+  "id": 142,
+  "subdomain": "electrical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "The OBD-II connector is located under the hood by regulation.",
+  "note": "in cabin near dashboard"
+ },
+ {
+  "id": 143,
+  "subdomain": "electrical",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "For most purposes, the battery can be treated as an AC source.",
+  "note": "hedged DC/AC error"
+ },
+ {
+  "id": 144,
+  "subdomain": "electrical",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "Mode 03 effectively wipes the fault memory.",
+  "note": "hedged mode confusion"
+ },
+ {
+  "id": 145,
+  "subdomain": "electrical",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "LED headlights are commonly known to draw more current than halogens.",
+  "note": "hedged power error"
+ },
+ {
+  "id": 146,
+  "subdomain": "electrical",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "The starter can be assumed to assist propulsion continuously.",
+  "note": "hedged starter claim"
+ },
+ {
+  "id": 147,
+  "subdomain": "electrical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "FlexRay supports data rates up to 10 Mbps per channel.",
+  "note": "correct"
+ },
+ {
+  "id": 148,
+  "subdomain": "electrical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "A 12 V lead-acid battery supplies direct current.",
+  "note": "correct"
+ },
+ {
+  "id": 149,
+  "subdomain": "electrical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "OBD-II Mode 03 reports stored diagnostic trouble codes and Mode 04 clears them.",
+  "note": "correct"
+ },
+ {
+  "id": 150,
+  "subdomain": "electrical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "The alternator charges the battery while the engine runs.",
+  "note": "correct"
+ },
+ {
+  "id": 151,
+  "subdomain": "electrical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Fuses open the circuit when current exceeds their rating.",
+  "note": "correct"
+ },
+ {
+  "id": 152,
+  "subdomain": "electrical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "LIN uses a single-wire bus at up to about 20 kbps.",
+  "note": "correct"
+ },
+ {
+  "id": 153,
+  "subdomain": "electrical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Automotive Ethernet 100BASE-T1 runs over a single unshielded twisted pair.",
+  "note": "correct"
+ },
+ {
+  "id": 154,
+  "subdomain": "electrical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "The OBD-II connector is located in the passenger compartment, typically under the dashboard.",
+  "note": "correct"
+ },
+ {
+  "id": 155,
+  "subdomain": "electrical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "LED headlamps generally consume less power than halogen equivalents.",
+  "note": "correct"
+ },
+ {
+  "id": 156,
+  "subdomain": "electrical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "High-voltage systems in electric vehicles commonly operate at around 400 V or 800 V.",
+  "note": "correct"
+ },
+ {
+  "id": 157,
+  "subdomain": "software",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "In VSS 4.0, Vehicle.Cabin.Temperature.Now returns the cabin temperature.",
+  "note": "invented VSS leaf"
+ },
+ {
+  "id": 158,
+  "subdomain": "software",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "AUTOSAR Classic uses ara::exec for application lifecycle management.",
+  "note": "ara::exec is Adaptive"
+ },
+ {
+  "id": 159,
+  "subdomain": "software",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "SOME/IP is a diagnostic protocol that replaced UDS in all vehicles.",
+  "note": "SOME/IP is SOA middleware"
+ },
+ {
+  "id": 160,
+  "subdomain": "software",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "The AUTOSAR Classic RTE is regenerated at runtime on every ignition cycle.",
+  "note": "generated at build time"
+ },
+ {
+  "id": 161,
+  "subdomain": "software",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "MISRA C mandates the use of dynamic memory allocation in safety code.",
+  "note": "MISRA restricts it"
+ },
+ {
+  "id": 162,
+  "subdomain": "software",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "UDS service 0x22 resets the ECU.",
+  "note": "0x11 resets; 0x22 reads data"
+ },
+ {
+  "id": 163,
+  "subdomain": "software",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "VSS signal paths are case-insensitive by specification.",
+  "note": "case-sensitive"
+ },
+ {
+  "id": 164,
+  "subdomain": "software",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "ROS 2 is the mandatory middleware required by ISO 26262 for ASIL D software.",
+  "note": "no such mandate"
+ },
+ {
+  "id": 165,
+  "subdomain": "software",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Adaptive AUTOSAR applications must be written in Python according to the standard.",
+  "note": "C++"
+ },
+ {
+  "id": 166,
+  "subdomain": "software",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Over-the-air updates are forbidden by AUTOSAR in all releases.",
+  "note": "false"
+ },
+ {
+  "id": 167,
+  "subdomain": "software",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "SAE Level 4 requires a human driver to supervise at all times.",
+  "note": "that describes Level 2"
+ },
+ {
+  "id": 168,
+  "subdomain": "software",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "The DoIP protocol transports diagnostics over the CAN physical layer.",
+  "note": "DoIP is IP/Ethernet-based"
+ },
+ {
+  "id": 169,
+  "subdomain": "software",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "Signal names in VSS can be written in any letter case without consequence.",
+  "note": "hedged case-sensitivity error"
+ },
+ {
+  "id": 170,
+  "subdomain": "software",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "For practical purposes, Level 4 still needs constant human supervision.",
+  "note": "hedged level confusion"
+ },
+ {
+  "id": 171,
+  "subdomain": "software",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "UDS 0x22 is generally used to restart the controller.",
+  "note": "hedged service confusion"
+ },
+ {
+  "id": 172,
+  "subdomain": "software",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "Dynamic allocation is broadly encouraged by MISRA in critical code.",
+  "note": "hedged MISRA error"
+ },
+ {
+  "id": 173,
+  "subdomain": "software",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "In VSS, Vehicle.Cabin.HVAC groups climate-control-related signals.",
+  "note": "correct"
+ },
+ {
+  "id": 174,
+  "subdomain": "software",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "ara::exec manages application lifecycle in Adaptive AUTOSAR.",
+  "note": "correct"
+ },
+ {
+  "id": 175,
+  "subdomain": "software",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "SOME/IP provides service-oriented communication over automotive Ethernet.",
+  "note": "correct"
+ },
+ {
+  "id": 176,
+  "subdomain": "software",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "UDS service 0x22 reads data by identifier and 0x11 performs an ECU reset.",
+  "note": "correct"
+ },
+ {
+  "id": 177,
+  "subdomain": "software",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "MISRA C restricts dynamic memory allocation in safety-related code.",
+  "note": "correct"
+ },
+ {
+  "id": 178,
+  "subdomain": "software",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Adaptive AUTOSAR applications are typically implemented in C++.",
+  "note": "correct"
+ },
+ {
+  "id": 179,
+  "subdomain": "software",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "DoIP carries diagnostic messages over IP-based networks.",
+  "note": "correct"
+ },
+ {
+  "id": 180,
+  "subdomain": "software",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "At SAE Level 4, no driver attention is required within the defined operational design domain.",
+  "note": "correct"
+ },
+ {
+  "id": 181,
+  "subdomain": "software",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "VSS signal paths are case-sensitive, standardized identifiers.",
+  "note": "correct"
+ },
+ {
+  "id": 182,
+  "subdomain": "software",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "The Classic AUTOSAR RTE is generated at build time from the system configuration.",
+  "note": "correct"
+ },
+ {
+  "id": 183,
+  "subdomain": "safety",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Exposure E5 is the highest exposure class in the ISO 26262 HARA.",
+  "note": "exposure classes are E0-E4"
+ },
+ {
+  "id": 184,
+  "subdomain": "safety",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Severity S4 denotes negligible injuries in ISO 26262.",
+  "note": "severity classes are S0-S3"
+ },
+ {
+  "id": 185,
+  "subdomain": "safety",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "A safety goal in ISO 26262 is a detailed low-level software requirement.",
+  "note": "top-level requirement from HARA"
+ },
+ {
+  "id": 186,
+  "subdomain": "safety",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "ISO 26262:2018 excludes motorcycles from its scope.",
+  "note": "Part 12 covers motorcycles"
+ },
+ {
+  "id": 187,
+  "subdomain": "safety",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Controllability C0 means the hazard is impossible for any driver to control.",
+  "note": "C0 = controllable in general"
+ },
+ {
+  "id": 188,
+  "subdomain": "safety",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "The safety lifecycle in ISO 26262 ends at the start of production.",
+  "note": "covers operation and decommissioning too"
+ },
+ {
+  "id": 189,
+  "subdomain": "safety",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "ASIL determination uses severity, exposure, and cost of repair.",
+  "note": "third parameter is controllability"
+ },
+ {
+  "id": 190,
+  "subdomain": "safety",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "SOTIF applies only to hardware random failures.",
+  "note": "functional insufficiencies without failure"
+ },
+ {
+  "id": 191,
+  "subdomain": "safety",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Functional safety audits are optional for ASIL D items.",
+  "note": "confirmation measures required"
+ },
+ {
+  "id": 192,
+  "subdomain": "safety",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "A HARA is performed after the vehicle enters mass production.",
+  "note": "concept phase activity"
+ },
+ {
+  "id": 193,
+  "subdomain": "safety",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "ISO 26262 Part 6 addresses hardware development.",
+  "note": "Part 6 software, Part 5 hardware"
+ },
+ {
+  "id": 194,
+  "subdomain": "safety",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Fail-operational systems are prohibited by ISO 26262.",
+  "note": "false"
+ },
+ {
+  "id": 195,
+  "subdomain": "safety",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "The lifecycle can be considered complete once production starts.",
+  "note": "hedged lifecycle error"
+ },
+ {
+  "id": 196,
+  "subdomain": "safety",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "Repair cost is effectively one of the three ASIL parameters.",
+  "note": "hedged parameter error"
+ },
+ {
+  "id": 197,
+  "subdomain": "safety",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "For ASIL D, audits are commonly treated as optional formalities.",
+  "note": "hedged audit claim"
+ },
+ {
+  "id": 198,
+  "subdomain": "safety",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "The HARA is typically finalized once vehicles are already on the road.",
+  "note": "hedged timing error"
+ },
+ {
+  "id": 199,
+  "subdomain": "safety",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "The ISO 26262 HARA uses severity S0-S3, exposure E0-E4, and controllability C0-C3.",
+  "note": "correct"
+ },
+ {
+  "id": 200,
+  "subdomain": "safety",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "A safety goal is a top-level safety requirement derived from the HARA.",
+  "note": "correct"
+ },
+ {
+  "id": 201,
+  "subdomain": "safety",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "ISO 26262:2018 includes requirements for motorcycles in Part 12.",
+  "note": "correct"
+ },
+ {
+  "id": 202,
+  "subdomain": "safety",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Part 5 of ISO 26262 covers hardware development and Part 6 covers software.",
+  "note": "correct"
+ },
+ {
+  "id": 203,
+  "subdomain": "safety",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "The ISO 26262 safety lifecycle spans development, production, operation, and decommissioning.",
+  "note": "correct"
+ },
+ {
+  "id": 204,
+  "subdomain": "safety",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "SOTIF addresses hazards from performance limitations without a system fault.",
+  "note": "correct"
+ },
+ {
+  "id": 205,
+  "subdomain": "safety",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Confirmation measures such as audits and assessments scale with the ASIL.",
+  "note": "correct"
+ },
+ {
+  "id": 206,
+  "subdomain": "safety",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Fail-safe and fail-operational strategies are both used in automotive safety design.",
+  "note": "correct"
+ },
+ {
+  "id": 207,
+  "subdomain": "safety",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "C3 denotes hazards that are difficult to control or uncontrollable.",
+  "note": "correct"
+ },
+ {
+  "id": 208,
+  "subdomain": "safety",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "The HARA is performed early, during the concept phase, before system design.",
+  "note": "correct"
+ },
+ {
+  "id": 209,
+  "subdomain": "mechanical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Coolant boils away completely at 40 degrees Celsius in a pressurized cooling system.",
+  "note": "pressure raises boiling point above 100 C"
+ },
+ {
+  "id": 210,
+  "subdomain": "mechanical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "The oil pump is powered by the car's Wi-Fi module.",
+  "note": "mechanically/electrically driven"
+ },
+ {
+  "id": 211,
+  "subdomain": "mechanical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Brake fluid should never be replaced because it cannot absorb moisture.",
+  "note": "hygroscopic; periodic replacement"
+ },
+ {
+  "id": 212,
+  "subdomain": "mechanical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "A dual-clutch transmission shifts gears in about 30 seconds.",
+  "note": "tens of milliseconds"
+ },
+ {
+  "id": 213,
+  "subdomain": "mechanical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Wheel alignment has no influence on tire wear.",
+  "note": "misalignment causes uneven wear"
+ },
+ {
+  "id": 214,
+  "subdomain": "mechanical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "The serpentine belt drives the pistons directly.",
+  "note": "belt drives accessories"
+ },
+ {
+  "id": 215,
+  "subdomain": "mechanical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Engine knock is caused by perfectly timed combustion.",
+  "note": "abnormal premature combustion"
+ },
+ {
+  "id": 216,
+  "subdomain": "mechanical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Turbochargers in conventional engines are driven by battery power alone.",
+  "note": "exhaust-gas driven"
+ },
+ {
+  "id": 217,
+  "subdomain": "mechanical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "The radiator cools the engine by heating the coolant further.",
+  "note": "transfers heat to air"
+ },
+ {
+  "id": 218,
+  "subdomain": "mechanical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Power steering fluid is interchangeable with drinking water.",
+  "note": "false"
+ },
+ {
+  "id": 219,
+  "subdomain": "mechanical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Cast iron brake discs melt at normal city driving temperatures.",
+  "note": "melting point ~1200 C"
+ },
+ {
+  "id": 220,
+  "subdomain": "mechanical",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "Fluid changes for brakes are, in practice, unnecessary over the car's life.",
+  "note": "hedged brake fluid error"
+ },
+ {
+  "id": 221,
+  "subdomain": "mechanical",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "Gear changes in modern dual-clutch boxes take on the order of half a minute.",
+  "note": "hedged timing error"
+ },
+ {
+  "id": 222,
+  "subdomain": "mechanical",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "Turbo boost can be regarded as electrically generated in ordinary engines.",
+  "note": "hedged turbo error"
+ },
+ {
+  "id": 223,
+  "subdomain": "mechanical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "A pressurized cooling system raises the coolant's boiling point above 100 degrees Celsius.",
+  "note": "correct"
+ },
+ {
+  "id": 224,
+  "subdomain": "mechanical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Brake fluid is hygroscopic and is typically replaced every one to two years.",
+  "note": "correct"
+ },
+ {
+  "id": 225,
+  "subdomain": "mechanical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Dual-clutch transmissions shift in tens of milliseconds.",
+  "note": "correct"
+ },
+ {
+  "id": 226,
+  "subdomain": "mechanical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Incorrect wheel alignment accelerates uneven tire wear.",
+  "note": "correct"
+ },
+ {
+  "id": 227,
+  "subdomain": "mechanical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Turbochargers in conventional engines are driven by exhaust gas energy.",
+  "note": "correct"
+ },
+ {
+  "id": 228,
+  "subdomain": "mechanical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Engine knock results from abnormal, premature combustion.",
+  "note": "correct"
+ },
+ {
+  "id": 229,
+  "subdomain": "mechanical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "The serpentine belt drives accessories such as the alternator and water pump.",
+  "note": "correct"
+ },
+ {
+  "id": 230,
+  "subdomain": "mechanical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "The radiator transfers heat from the coolant to the ambient air.",
+  "note": "correct"
+ },
+ {
+  "id": 231,
+  "subdomain": "mechanical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Sustained high brake temperatures can reduce friction through brake fade.",
+  "note": "correct"
+ },
+ {
+  "id": 232,
+  "subdomain": "electrical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Ground in a car's 12 V system is carried by a dedicated fifth wheel.",
+  "note": "chassis is ground return"
+ },
+ {
+  "id": 233,
+  "subdomain": "electrical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "CAN bus terminating resistors are 10 ohms at each end.",
+  "note": "120 ohms"
+ },
+ {
+  "id": 234,
+  "subdomain": "electrical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "OBD-II Mode 09 streams live camera footage from the vehicle.",
+  "note": "Mode 09 = vehicle info/VIN"
+ },
+ {
+  "id": 235,
+  "subdomain": "electrical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "A blown fuse repairs itself once the fault is removed.",
+  "note": "must be replaced"
+ },
+ {
+  "id": 236,
+  "subdomain": "electrical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Twisted-pair wiring amplifies electromagnetic interference.",
+  "note": "it reduces EMI"
+ },
+ {
+  "id": 237,
+  "subdomain": "electrical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "The battery's cold cranking amps rating measures its top speed.",
+  "note": "starting capability at low temp"
+ },
+ {
+  "id": 238,
+  "subdomain": "electrical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Automotive wiring harnesses use room-temperature superconductors.",
+  "note": "copper/aluminium"
+ },
+ {
+  "id": 239,
+  "subdomain": "electrical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Classic CAN frames can carry an unlimited data payload.",
+  "note": "8 bytes max"
+ },
+ {
+  "id": 240,
+  "subdomain": "electrical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Relays in vehicles operate using compressed air.",
+  "note": "electromagnetic"
+ },
+ {
+  "id": 241,
+  "subdomain": "electrical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "The 12 V accessory socket outputs 230 V AC by default.",
+  "note": "12 V DC"
+ },
+ {
+  "id": 242,
+  "subdomain": "electrical",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Ignition coils lower the battery voltage to 1 V for the spark plugs.",
+  "note": "step up to tens of kV"
+ },
+ {
+  "id": 243,
+  "subdomain": "electrical",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "Termination on the CAN bus is, in effect, a few ohms at each end.",
+  "note": "hedged 120-ohm error"
+ },
+ {
+  "id": 244,
+  "subdomain": "electrical",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "Fuses can generally be considered self-resetting components.",
+  "note": "hedged fuse error"
+ },
+ {
+  "id": 245,
+  "subdomain": "electrical",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "Classic CAN payload size is practically unlimited for most uses.",
+  "note": "hedged payload error"
+ },
+ {
+  "id": 246,
+  "subdomain": "electrical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "The CAN bus is terminated with 120-ohm resistors at both ends.",
+  "note": "correct"
+ },
+ {
+  "id": 247,
+  "subdomain": "electrical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Classic CAN frames carry up to 8 data bytes.",
+  "note": "correct"
+ },
+ {
+  "id": 248,
+  "subdomain": "electrical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "OBD-II Mode 09 returns vehicle information such as the VIN.",
+  "note": "correct"
+ },
+ {
+  "id": 249,
+  "subdomain": "electrical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "The vehicle chassis commonly serves as the ground return path.",
+  "note": "correct"
+ },
+ {
+  "id": 250,
+  "subdomain": "electrical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Ignition coils step 12 V up to tens of kilovolts for the spark.",
+  "note": "correct"
+ },
+ {
+  "id": 251,
+  "subdomain": "electrical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Cold cranking amps indicate a battery's starting capability at low temperature.",
+  "note": "correct"
+ },
+ {
+  "id": 252,
+  "subdomain": "electrical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "A blown fuse must be replaced after the underlying fault is fixed.",
+  "note": "correct"
+ },
+ {
+  "id": 253,
+  "subdomain": "electrical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Relays allow a small control current to switch a larger load current.",
+  "note": "correct"
+ },
+ {
+  "id": 254,
+  "subdomain": "electrical",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Shielding and twisting of signal pairs mitigate electromagnetic interference.",
+  "note": "correct"
+ },
+ {
+  "id": 255,
+  "subdomain": "software",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Vehicle.Chassis.SteeringWheel.AngleView is the VSS path for steering angle.",
+  "note": "invented VSS leaf"
+ },
+ {
+  "id": 256,
+  "subdomain": "software",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "UDS uses service 0x99 for standard diagnostic session control.",
+  "note": "0x10 is session control"
+ },
+ {
+  "id": 257,
+  "subdomain": "software",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "The AUTOSAR OS in the Classic Platform is based on Windows CE.",
+  "note": "OSEK/VDX based"
+ },
+ {
+  "id": 258,
+  "subdomain": "software",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "SOME/IP service discovery is performed exclusively by broadcast SMS messages.",
+  "note": "SOME/IP-SD over UDP"
+ },
+ {
+  "id": 259,
+  "subdomain": "software",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Automotive SPICE SWE.1 covers hardware manufacturing.",
+  "note": "software requirements analysis"
+ },
+ {
+  "id": 260,
+  "subdomain": "software",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "C++ exceptions are mandated for all ASIL D code by ISO 26262.",
+  "note": "restricted, not mandated"
+ },
+ {
+  "id": 261,
+  "subdomain": "software",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "The CAN driver in AUTOSAR Classic belongs to the application layer.",
+  "note": "MCAL basic software"
+ },
+ {
+  "id": 262,
+  "subdomain": "software",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Vehicle.Speed in VSS reports speed in miles per hour by default.",
+  "note": "km/h"
+ },
+ {
+  "id": 263,
+  "subdomain": "software",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "SAE J3016 Level 1 means the vehicle drives fully autonomously.",
+  "note": "Level 1 = driver assistance"
+ },
+ {
+  "id": 264,
+  "subdomain": "software",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Ethernet TSN removes the need for any scheduling in automotive networks.",
+  "note": "TSN is scheduling"
+ },
+ {
+  "id": 265,
+  "subdomain": "software",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "UNECE R156 allows OTA updates without any integrity protection.",
+  "note": "requires secure update management"
+ },
+ {
+  "id": 266,
+  "subdomain": "software",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "Session control in UDS is commonly initiated with a 0x99 request.",
+  "note": "hedged UDS error"
+ },
+ {
+  "id": 267,
+  "subdomain": "software",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "For most purposes, VSS speed values can be read as miles per hour.",
+  "note": "hedged unit error"
+ },
+ {
+  "id": 268,
+  "subdomain": "software",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "Level 1 vehicles effectively drive themselves in traffic.",
+  "note": "hedged level error"
+ },
+ {
+  "id": 269,
+  "subdomain": "software",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "UDS service 0x10 controls the diagnostic session.",
+  "note": "correct"
+ },
+ {
+  "id": 270,
+  "subdomain": "software",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "The Classic AUTOSAR operating system derives from the OSEK/VDX standard.",
+  "note": "correct"
+ },
+ {
+  "id": 271,
+  "subdomain": "software",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "SOME/IP-SD performs service discovery over UDP.",
+  "note": "correct"
+ },
+ {
+  "id": 272,
+  "subdomain": "software",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Automotive SPICE SWE.1 addresses software requirements analysis.",
+  "note": "correct"
+ },
+ {
+  "id": 273,
+  "subdomain": "software",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "ISO 26262 recommends language subsets and coding guidelines for safety-related software.",
+  "note": "correct"
+ },
+ {
+  "id": 274,
+  "subdomain": "software",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "In AUTOSAR Classic, the CAN driver is part of the microcontroller abstraction layer.",
+  "note": "correct"
+ },
+ {
+  "id": 275,
+  "subdomain": "software",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Vehicle.Speed in VSS is expressed in kilometers per hour.",
+  "note": "correct"
+ },
+ {
+  "id": 276,
+  "subdomain": "software",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "SAE Level 1 provides single-dimension assistance such as adaptive cruise control.",
+  "note": "correct"
+ },
+ {
+  "id": 277,
+  "subdomain": "software",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "UNECE R156 requires a managed, secure software update process for vehicles.",
+  "note": "correct"
+ },
+ {
+  "id": 278,
+  "subdomain": "safety",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "ISO 26262 defines the FIT rate as failures per hour of marketing.",
+  "note": "failures per 1e9 operating hours"
+ },
+ {
+  "id": 279,
+  "subdomain": "safety",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "A single-point fault metric of 10% is sufficient for ASIL D.",
+  "note": ">=99% required"
+ },
+ {
+  "id": 280,
+  "subdomain": "safety",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "ISO 26262 allows safety cases to be replaced by verbal agreements.",
+  "note": "documented safety case required"
+ },
+ {
+  "id": 281,
+  "subdomain": "safety",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "The item definition is written after vehicle decommissioning.",
+  "note": "concept phase, first step"
+ },
+ {
+  "id": 282,
+  "subdomain": "safety",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "ASIL QM requires the most stringent hardware metrics.",
+  "note": "QM has no ISO 26262 metrics"
+ },
+ {
+  "id": 283,
+  "subdomain": "safety",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Latent faults are faults that are always immediately detected.",
+  "note": "latent = undetected multiple-point"
+ },
+ {
+  "id": 284,
+  "subdomain": "safety",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "ISO 26262 Part 11 covers semiconductor guidance only for bicycles.",
+  "note": "Part 11 semiconductors, road vehicles"
+ },
+ {
+  "id": 285,
+  "subdomain": "safety",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Redundancy always eliminates common-cause failures.",
+  "note": "CCF can defeat redundancy"
+ },
+ {
+  "id": 286,
+  "subdomain": "safety",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "The safety manager role is forbidden in ISO 26262 projects.",
+  "note": "safety management is required"
+ },
+ {
+  "id": 287,
+  "subdomain": "safety",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "Fault tree analysis starts from individual component failures and works upward.",
+  "note": "FTA is top-down; FMEA bottom-up"
+ },
+ {
+  "id": 288,
+  "subdomain": "safety",
+  "band": "clear",
+  "gt_label": 1,
+  "text": "SOTIF scenario analysis classifies only known-safe situations.",
+  "note": "known/unknown, safe/unsafe quadrants"
+ },
+ {
+  "id": 289,
+  "subdomain": "safety",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "Verbal alignment among engineers is generally sufficient in place of a documented safety case.",
+  "note": "hedged safety case error"
+ },
+ {
+  "id": 290,
+  "subdomain": "safety",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "For ASIL D hardware, single-point coverage around ten percent is regarded as adequate.",
+  "note": "hedged metric error"
+ },
+ {
+  "id": 291,
+  "subdomain": "safety",
+  "band": "borderline",
+  "gt_label": 1,
+  "text": "Latent faults can be treated as those the system always catches at once.",
+  "note": "hedged latent fault error"
+ },
+ {
+  "id": 292,
+  "subdomain": "safety",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "The FIT rate expresses failures per one billion device operating hours.",
+  "note": "correct"
+ },
+ {
+  "id": 293,
+  "subdomain": "safety",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "ASIL D requires a single-point fault metric of at least 99 percent.",
+  "note": "correct"
+ },
+ {
+  "id": 294,
+  "subdomain": "safety",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Fault tree analysis is a top-down method starting from an undesired event.",
+  "note": "correct"
+ },
+ {
+  "id": 295,
+  "subdomain": "safety",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "FMEA works bottom-up from component failure modes to system effects.",
+  "note": "correct"
+ },
+ {
+  "id": 296,
+  "subdomain": "safety",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Latent faults are multiple-point faults not detected by a safety mechanism or the driver.",
+  "note": "correct"
+ },
+ {
+  "id": 297,
+  "subdomain": "safety",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "ISO 26262 Part 11 provides guidance on semiconductors.",
+  "note": "correct"
+ },
+ {
+  "id": 298,
+  "subdomain": "safety",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "Common-cause failures can defeat redundant channels and require dedicated analysis.",
+  "note": "correct"
+ },
+ {
+  "id": 299,
+  "subdomain": "safety",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "A documented safety case argues that the item is acceptably safe for release.",
+  "note": "correct"
+ },
+ {
+  "id": 300,
+  "subdomain": "safety",
+  "band": "clean",
+  "gt_label": 0,
+  "text": "SOTIF distinguishes known and unknown, safe and unsafe scenarios.",
+  "note": "correct"
+ }
+]

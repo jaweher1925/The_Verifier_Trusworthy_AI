@@ -3,6 +3,8 @@ The Verifier v2.0 — Complete Backend
 One file. No complexity. Run: python server.py
 """
 import os, json, pickle, sqlite3, datetime, time, re, math
+import unicodedata
+from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Optional
 from statistics import mean
@@ -23,7 +25,7 @@ DB_FILE   = BASE / "history.db"
 DATA_DIR  = BASE / "data"
 GROQ_KEY  = os.getenv("GROQ_API_KEY", "")
 
-app = FastAPI(title="The Verifier", version="2.0")
+app = FastAPI(title="The Verifier", version="2.1")
 app.add_middleware(CORSMiddleware, allow_origins=["*"],
                    allow_methods=["*"], allow_headers=["*"])
 
@@ -140,7 +142,7 @@ PATTERNS = [
 ]
 
 def check_abs_timing(text):
-    matches = re.findall(r'abs[^.!?]{0,80}?(\d+)\s*(?:ms\b|millisecond)', text.lower())
+    matches = re.findall(r'\babs\b[^.!?]{0,80}?(\d+)\s*(?:ms\b|millisecond)', text.lower())
     for m in matches:
         v = int(m)
         if v < 40 or v > 200: return True, v
@@ -213,47 +215,67 @@ def check_100pct(text):
            "100% correct","100% security","100% detection"]
     return any(p in tl for p in bad)
 
+# Common Cyrillic/Greek homoglyphs mapped to their Latin lookalikes.
+# NFKD alone does NOT decompose these (it just drops them), so an attacker
+# could write 'vehiсle.speed.current' with a Cyrillic 'с' to evade Stage 1.
+HOMOGLYPHS = str.maketrans(
+    "аеорсухіАВЕКМНОРСТХаοερικυνАΒΕΖΗΙΚΜΝΟΡΤΥΧ",
+    "aeopcyxiABEKMHOPCTXaoepikuvABEZHIKMNOPTYX")
+
+def normalize(text: str) -> str:
+    """Homoglyph mapping + NFKD Unicode normalization — defeats homoglyph
+    evasion attacks (e.g. Cyrillic 'с' inside 'vehicle.speed.current').
+    See threat model, Chapter 11."""
+    text = text.translate(HOMOGLYPHS)
+    return unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode("ascii")
+
+def kw_match(kw: str, tl: str) -> bool:
+    """Word-boundary keyword match. Plain substring matching causes false
+    positives: 'certainly' would match inside 'uncertainly'."""
+    return re.search(r'(?<![a-z0-9])' + re.escape(kw) + r'(?![a-z0-9])', tl) is not None
+
 def detect(text: str):
-    tl = text.lower()
+    tl = normalize(text).lower()
     issues = []
     seen   = set()
 
     for kw, sub, sev, reason in PATTERNS:
-        if kw in tl and kw not in seen:
+        if kw_match(kw, tl) and kw not in seen:
             issues.append({"pattern":kw,"subdomain":sub,"severity":sev,"reason":reason})
             seen.add(kw)
 
-    abs_bad, abs_val = check_abs_timing(text)
+    nt = normalize(text)
+    abs_bad, abs_val = check_abs_timing(nt)
     if abs_bad:
         issues.append({"pattern":"abs_timing","subdomain":"mechanical","severity":"critical",
                        "reason":f"ABS timing {abs_val}ms outside validated range 50-150ms"})
 
-    if check_asil_no_hara(text):
+    if check_asil_no_hara(nt):
         issues.append({"pattern":"asil_no_hara","subdomain":"safety","severity":"critical",
                        "reason":"ASIL assigned without HARA — violates ISO 26262 Part 3"})
 
-    clause_bad, clause_val = check_fake_clause(text)
+    clause_bad, clause_val = check_fake_clause(nt)
     if clause_bad:
         issues.append({"pattern":"fake_clause","subdomain":"safety","severity":"critical",
                        "reason":f"ISO 26262 Part 6 Clause {clause_val} does not exist — only 13 clauses"})
 
-    if check_can_security(text):
+    if check_can_security(nt):
         issues.append({"pattern":"can_security","subdomain":"electrical","severity":"high",
                        "reason":"Standard CAN has no built-in authentication or encryption"})
 
-    if check_ara_com_classic(text):
+    if check_ara_com_classic(nt):
         issues.append({"pattern":"ara_com_classic","subdomain":"software","severity":"high",
                        "reason":"ara::com is Adaptive Platform only — not Classic Platform"})
 
-    if check_adaptive_baremetal(text):
+    if check_adaptive_baremetal(nt):
         issues.append({"pattern":"adaptive_baremetal","subdomain":"software","severity":"high",
                        "reason":"Adaptive Platform requires POSIX OS — cannot run bare-metal"})
 
-    if check_sotif_same(text):
+    if check_sotif_same(nt):
         issues.append({"pattern":"sotif_same","subdomain":"safety","severity":"high",
                        "reason":"SOTIF and ISO 26262 are different complementary standards"})
 
-    if check_100pct(text):
+    if check_100pct(nt):
         issues.append({"pattern":"100pct","subdomain":"general","severity":"medium",
                        "reason":"100% reliability/accuracy claim requires formal validation"})
 
@@ -306,24 +328,35 @@ def ask_groq(text: str, context: str, local: dict):
                 "reason":"Local detection only","corrected":text}
     try:
         r = groq_client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
+            model=os.getenv("JUDGE_MODEL", "llama-3.3-70b-versatile"),
             messages=[
                 {"role":"system","content":SYSTEM_PROMPT},
                 {"role":"user","content":f"KB:\n{context or '(none)'}\n\nTEXT:\n{text}\n\nJSON only."}
             ],
-            temperature=0.05, max_tokens=600
+            temperature=0.05, max_tokens=1500,
+            **({"reasoning_effort": "low"} if "gpt-oss" in os.getenv("JUDGE_MODEL", "") else {})
         )
-        raw = r.choices[0].message.content.strip()
+        raw = (r.choices[0].message.content or "").strip()
         if "```" in raw:
             for part in raw.split("```"):
                 p = part.strip()
                 if p.startswith("json"): p = p[4:].strip()
                 if p.startswith("{"): raw = p; break
+        # salvage: keep only the outermost {...} block
+        if not raw.startswith("{") and "{" in raw:
+            raw = raw[raw.index("{"):]
+        if raw.count("{") and raw.rstrip()[-1:] != "}":
+            raw = raw[:raw.rfind("}")+1] if "}" in raw else raw
         res = json.loads(raw.strip())
         res.setdefault("score",       local["score"])
         res.setdefault("is_hallucination", local["score"]>=25)
         res.setdefault("corrected",   text)
         res.setdefault("reason",      "Analysis complete")
+        # Groq sometimes returns score as a string ("85") — coerce and clamp
+        try:
+            res["score"] = max(0.0, min(100.0, float(res["score"])))
+        except (TypeError, ValueError):
+            res["score"] = local["score"]
         return res
     except Exception as e:
         return {"score":local["score"],"is_hallucination":local["score"]>=25,
@@ -354,9 +387,14 @@ def compute_rouge(text: str) -> Optional[float]:
 # ── Live evaluation — BULLETPROOF VERSION ─────────────────────────────────────
 def update_eval():
     """
-    Compute realistic Accuracy/Recall/F1 using enumerate() — ignores DB ids.
-    Uses every row. Ground truth = score>=50. Prediction = score>=25.
-    The gap between 25 and 50 guarantees realistic FP/FN.
+    Live approximation of the two-threshold decoupled evaluation protocol.
+    Ground truth: score >= 40 (truly hallucinated).
+    Prediction:   score >= 50 (system raises a warning).
+    The 40-49 gap creates genuine False Negatives, so Recall < 1.000.
+    NOTE: because both labels derive from the same score, FP is always 0 here;
+    real FP counts come from the manual expert labeling used in the thesis
+    evaluation. These live metrics are a monitoring approximation, not the
+    published evaluation.
     """
     conn = sqlite3.connect(DB_FILE)
     conn.row_factory = sqlite3.Row
@@ -412,7 +450,7 @@ class ReVerifyReq(BaseModel):
 # ── Routes ────────────────────────────────────────────────────────────────────
 @app.get("/")
 def root():
-    return {"name":"The Verifier","version":"2.0","status":"running","docs":"http://localhost:8000/docs"}
+    return {"name":"The Verifier","version":"2.1","status":"running","docs":"http://localhost:8000/docs"}
 
 @app.get("/health")
 def health():
@@ -428,16 +466,17 @@ def verify(req: VerifyReq):
     local            = detect(req.text)
     context, sources = search(req.text)
 
-    if req.extra_url and req.extra_url.startswith("http"):
+    if req.extra_url and req.extra_url.startswith(("http://", "https://")):
         try:
             import urllib.request
             with urllib.request.urlopen(req.extra_url, timeout=5) as resp:
-                html = resp.read().decode("utf-8", errors="ignore")
+                html = resp.read(500_000).decode("utf-8", errors="ignore")  # cap download at 500 KB
             txt      = re.sub(r"<[^>]+>"," ",html)
             txt      = re.sub(r"\s+"," ",txt).strip()[:2000]
             context += "\n\nEXTRA SOURCE:\n" + txt
             sources.append(req.extra_url)
-        except: pass
+        except Exception as e:
+            print(f"extra_url fetch failed ({req.extra_url}): {e}")
 
     result = ask_groq(req.text, context, local)
 
@@ -445,7 +484,7 @@ def verify(req: VerifyReq):
     has_critical = any(i["severity"]=="critical" for i in local["issues"])
     final_score  = max(local["score"], result["score"]) if has_critical else result["score"]
     result["score"] = final_score
-    result["is_hallucination"] = final_score >= 25
+    result["is_hallucination"] = final_score >= 40  # calibrated alert threshold
 
     # ROUGE-L
     corrected = result.get("corrected","")
@@ -536,9 +575,8 @@ def live_metrics():
         "per_verification":         [{**r,"running_avg_rouge_l":running[i]} for i,r in enumerate(records)]
     }
 
-@app.on_event("startup")
 def startup():
-    print("\n=== The Verifier v2.0 ===")
+    print("\n=== The Verifier v2.1 ===")
     init_db()
     load_index()
     init_groq()
@@ -546,6 +584,14 @@ def startup():
     update_eval()
     print(f"{len(PATTERNS)+8} patterns loaded")
     print("http://localhost:8000\n")
+
+# Modern FastAPI lifespan (replaces deprecated @app.on_event("startup"))
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    startup()
+    yield
+
+app.router.lifespan_context = lifespan
 
 if __name__ == "__main__":
     import uvicorn
