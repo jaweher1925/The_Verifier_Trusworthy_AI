@@ -5,3 +5,8 @@ __pycache__/
 backend/history.db
 *.pyc
 .DS_Store
+presentation/
+paper/*.tex
+paper/*.cls
+paper/*.docx
+paper/fig1.png

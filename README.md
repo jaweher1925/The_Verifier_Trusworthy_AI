@@ -21,7 +21,7 @@ The Verifier detects and corrects LLM-generated hallucinations in automotive eng
 
 ## Evaluation (300-case, cross-subdomain, standards-traced corpus)
 
-Ground truth is fixed **by construction**, before any system run, eliminating the circularity of grading the system against its own risk score. Full methodology, confusion matrix, confidence intervals, per-subdomain breakdown, and ablation are in the paper (`paper/paper_camera.tex`).
+Ground truth is fixed **by construction**, before any system run, eliminating the circularity of grading the system against its own risk score. Full methodology, confusion matrix, confidence intervals, per-subdomain breakdown, and ablation are in the paper (`paper/paper_camera.pdf`).
 
 | Metric | Full system (S1+S3) | Rules only (S1) |
 |---|---|---|
@@ -40,8 +40,7 @@ Ground truth is fixed **by construction**, before any system run, eliminating th
 - `dashboard.py` — Streamlit live-metrics dashboard.
 - `extension/` — Chrome extension (load unpacked from this folder).
 - `evaluation/` — the formal 300-case benchmark: `evaluation_dataset.json` (labeled corpus), `run_evaluation.py` (evaluation script), and the saved `evaluation_results.json` matching the paper's results table.
-- `paper/` — the camera-ready paper (`paper_camera.tex`) and figures.
-- `presentation/` — conference and defense slide decks, speech scripts, and the test-case spreadsheet.
+- `paper/` — the camera-ready paper PDF.
 
 ## Running the Live Demo (backend + dashboard + extension)
 
